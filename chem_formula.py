@@ -69,25 +69,45 @@ class ChemFormula(object):
         
         # parse the charge part of the formula, if present:
         try:
-            charge_sign, charge_value = chargedformulaData[1]
-            self.charge = int('%s%s' % (charge_sign, charge_value))
+            self.charge_sign, charge_value = chargedformulaData[1]
+            self.charge = int('%s%s' % (self.charge_sign, charge_value))
         except IndexError:
             self.charge = 0
 
+        html_chunks = []
         # calculate the relative molecular mass as the sum of the
         # atomic weights
         self.rmm = 0.
         for symbol, stoich in formulaData:
             istoich = int(stoich)
+            if isinstance(symbol, ParseResults):
+                # we got an isotope in the form '(zSy)' with z the mass number
+                # so symbol is the ParseResults ['z', 'Sy']:
+                mass_number, symbol = int(symbol[0]), symbol[1]
+                symbol_html = '<sup>%d</sup>%s' % (mass_number, symbol)
+                symbol = '%d%s' % (mass_number, symbol)
+            else:
+                mass_number = 0
+                symbol_html = symbol
             try:
                 atomic_number, atomic_weight = atom_data[symbol][:2]
             except KeyError:
                 raise ChemFormulaParseError('Unknown element symbol %s in'                              ' formula %s' % (symbol, formula))
             self.rmm += atomic_weight * istoich
             try:
-                self.atom_stoich[atomic_number] += istoich
+                self.atom_stoich[(atomic_number, mass_number)] += istoich
             except KeyError:
-                self.atom_stoich[atomic_number] = istoich
+                self.atom_stoich[(atomic_number, mass_number)] = istoich
+            html_chunks.append(symbol_html)
+            if istoich > 1:
+                html_chunks.append('<sub>%d</sub>' % istoich)
+        if self.charge:
+            s_charge = ''
+            if abs(self.charge) > 1:
+                s_charge = str(abs(self.charge))
+            html_chunks.append('<sup>%s%s</sup>' % (self.charge_sign,
+                                                    s_charge))
+        self.html = ''.join(html_chunks)
 
     def __str__(self):
         return self.formula
@@ -112,16 +132,20 @@ class ChemFormula(object):
             # Create a list of atom symbols, with their stoichiometries, in
             # order of increasing atomic number
             atom_strs = []
-            for atomic_number in sorted(self.atom_stoich.keys()):
-                atom_strs.append(self._get_symbol_stoich(
-                                        atom_data[atomic_number][2],
-                                        self.atom_stoich[atomic_number]))
+            for atomic_number, mass_number in sorted(self.atom_stoich.keys()):
+                symbol = atom_data[(atomic_number, mass_number)][3]
+                if mass_number:
+                    symbol = '(%s)' % symbol
+                atom_strs.append(self._get_symbol_stoich(symbol,
+                                self.atom_stoich[(atomic_number,mass_number)]))
             if fmt == 'alphabetical':
                 atom_strs.sort()
         elif fmt == 'hill':
             # Hill system: if the formula contains C, then C comes first,
             # followed by H (if present), and then the other elements' symbols
             # in alphabetical order
+            # XXX fix this for isotopologues
+            return 'NotImplemented'
             if 6 in self.atom_stoich.keys():
                 atom_strs = []
                 atom_strs.append(self._get_symbol_stoich('C',
