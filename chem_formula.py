@@ -92,7 +92,8 @@ class ChemFormula(object):
             try:
                 atomic_number, atomic_weight = atom_data[symbol][:2]
             except KeyError:
-                raise ChemFormulaParseError('Unknown element symbol %s in'                              ' formula %s' % (symbol, formula))
+                raise ChemFormulaParseError('Unknown element symbol %s in'
+                              ' formula %s' % (symbol, formula))
             self.rmm += atomic_weight * istoich
             try:
                 self.atom_stoich[(atomic_number, mass_number)] += istoich
@@ -105,8 +106,8 @@ class ChemFormula(object):
             s_charge = ''
             if abs(self.charge) > 1:
                 s_charge = str(abs(self.charge))
-            html_chunks.append('<sup>%s%s</sup>' % (self.charge_sign,
-                                                    s_charge))
+            html_chunks.append('<sup>%s%s</sup>' % (s_charge,
+                                                    self.charge_sign))
         self.html = ''.join(html_chunks)
 
     def __str__(self):

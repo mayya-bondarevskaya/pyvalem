@@ -20,3 +20,12 @@ f6 = ChemFormula('CO(16O)')
 f7 = ChemFormula('(14N)(1H)(16O)2(18O)(16O)')
 print f7, f7.stoichiometric_formula(), f7.html, f7.rmm
 
+f8 = ChemFormula('CH3CH2OH')
+print f8
+print f8.stoichiometric_formula()
+print f8.stoichiometric_formula('hill')
+print f8.stoichiometric_formula('alphabetical')
+
+carbonate = ChemFormula('CO3-2')
+print carbonate
+print carbonate.html
