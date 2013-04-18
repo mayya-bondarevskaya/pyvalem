@@ -29,3 +29,5 @@ print f8.stoichiometric_formula('alphabetical')
 carbonate = ChemFormula('CO3-2')
 print carbonate
 print carbonate.html
+ethanol = ChemFormula('CH3CH2OH')
+print ethanol.rmm
