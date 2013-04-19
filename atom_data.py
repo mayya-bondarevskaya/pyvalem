@@ -1,3 +1,31 @@
+# -*- coding: utf-8 -*-
+# atom_data.py
+# A dictionary of meta data relating to the elements and their isotopes.
+#
+# Copyright (C) 2012 Christian Hill
+# Department of Physics and Astronomy, University College London
+# christian.hill@ucl.ac.uk
+#
+# This file is part of PyValem
+#
+# PyValem is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PyValem is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PyValem.  If not, see <http://www.gnu.org/licenses/>
+
+# The atom_data dictionary is keyed by element symbol and by the tuple
+# (atomic_number, mass_number). Where mass_number=0, this indicates the
+# (weighted) average isotopic composition for an element. The values in
+# this dictionary are (atomic number, atomic weight, mass number, symbol).
+
 atom_data={
 'H':(1,1.007940,0,'H'),
 (1,0):(1,1.007940,0,'H'),
