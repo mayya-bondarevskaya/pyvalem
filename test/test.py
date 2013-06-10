@@ -11,17 +11,17 @@ f2 = ChemFormula('NO+')
 f3 = ChemFormula('OH-')
 f4 = ChemFormula('CoN6H18-2')
 f5 = ChemFormula('Cu+2')
-print f2
-print f3, f3.html
-print f4, f4.html
-print f5, f5.html
+print f2, f2.html, f2.slug
+print f3, f3.html, f3.slug
+print f4, f4.html, f4.slug
+print f5, f5.html, f5.slug
 
 f6 = ChemFormula('CO(16O)')
 f7 = ChemFormula('(14N)(1H)(16O)2(18O)(16O)')
-print f7, f7.stoichiometric_formula(), f7.html, f7.rmm
+print f7, f7.stoichiometric_formula(), f7.html, f7.slug, f7.rmm
 
 f8 = ChemFormula('CH3CH2OH')
-print f8
+print f8, f8.slug
 print f8.stoichiometric_formula()
 print f8.stoichiometric_formula('hill')
 print f8.stoichiometric_formula('alphabetical')

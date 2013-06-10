@@ -41,6 +41,8 @@ charge = Group(plusminus + Optional(integer, default='1'))
 chargedChemicalFormula = Group(chemicalFormula) + Optional(charge)\
                             + StringEnd()
 
+slug_charge_sign = {'+': 'p', '-': 'm'}
+
 class ChemFormulaError(Exception):
     def __init__(self, error_str):
         self.error_str = error_str
@@ -92,6 +94,7 @@ class ChemFormula(object):
             self.charge = 0
 
         html_chunks = []
+        slug_chunks = []
         # calculate the relative molecular mass as the sum of the
         # atomic weights
         self.rmm = 0.
@@ -103,9 +106,11 @@ class ChemFormula(object):
                 mass_number, symbol = int(symbol[0]), symbol[1]
                 symbol_html = '<sup>%d</sup>%s' % (mass_number, symbol)
                 symbol = '%d%s' % (mass_number, symbol)
+                slug_chunks.append('-%s' % symbol)
             else:
                 mass_number = 0
                 symbol_html = symbol
+                slug_chunks.append(symbol)
             try:
                 atomic_number, atomic_weight = atom_data[symbol][:2]
             except KeyError:
@@ -119,13 +124,18 @@ class ChemFormula(object):
             html_chunks.append(symbol_html)
             if istoich > 1:
                 html_chunks.append('<sub>%d</sub>' % istoich)
+                slug_chunks.append(str(istoich))
         if self.charge:
             s_charge = ''
             if abs(self.charge) > 1:
                 s_charge = str(abs(self.charge))
             html_chunks.append('<sup>%s%s</sup>' % (s_charge,
                                                     self.charge_sign))
+            slug_chunks.append('_%s%s' % (slug_charge_sign[self.charge_sign],
+                                          s_charge))
         self.html = ''.join(html_chunks)
+        # strip the leading '-' if the formula began with an isotope
+        self.slug = ''.join(slug_chunks).lstrip('-')
 
     def __str__(self):
         return self.formula
@@ -214,3 +224,12 @@ class ChemFormula(object):
         if self.charge == -1:
             return '-'
         return str(self.charge)
+
+    def slug(self):
+        """
+        Return the formula as a "slug": a URL-safe string that can be used
+        as part of a web address or as a directory name.
+
+        """
+
+        
