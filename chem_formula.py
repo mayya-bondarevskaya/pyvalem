@@ -395,11 +395,15 @@ class ChemFormula(object):
             if carbon_keys:
                 for carbon_key in carbon_keys:
                     symbol = atom_data[carbon_key][3]
+                    if carbon_key[1]:   # isotope of C
+                        symbol = '(%s)' % symbol
                     atom_strs.append(self._get_symbol_stoich(symbol,
                                 self.atom_stoich[carbon_key]))
                 hydrogen_keys = self._get_atom_stoich_keys_from_atomic_number(1)
                 for hydrogen_key in hydrogen_keys:
                     symbol = atom_data[hydrogen_key][3]
+                    if hydrogen_key[1]: # isotope of H
+                        symbol = '(%s)' % symbol
                     atom_strs.append(self._get_symbol_stoich(symbol,
                                 self.atom_stoich[hydrogen_key]))
             # get a list of the atom_stoich_keys omitting C and H
