@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 # atom_data.py
+# Version 1.0b
 # A dictionary of meta data relating to the elements and their isotopes.
 #
 # Copyright (C) 2012 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
+# The support of the Atomic and Molecular Data Unit of the IAEA
+# during the development of this library is gratefully acknowledged.
 #
 # This file is part of PyValem
 #
@@ -20,11 +23,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with PyValem.  If not, see <http://www.gnu.org/licenses/>
-
+#
 # The atom_data dictionary is keyed by element symbol and by the tuple
 # (atomic_number, mass_number). Where mass_number=0, this indicates the
 # (weighted) average isotopic composition for an element. The values in
 # this dictionary are (atomic number, atomic weight, mass number, symbol).
+
+# A list of all element symbols recognised by PyValem
+element_symbols = ['H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn', 'Sb', 'Te', 'I', 'Xe', 'Cs', 'Ba', 'La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb', 'Bi', 'Po', 'At', 'Rn', 'Fr', 'Ra', 'Ac', 'Th', 'Pa', 'U', 'Np', 'Pu', 'Am', 'Cm', 'Bk', 'Cf', 'Es', 'Fm', 'Md', 'No', 'Lr', 'Rf']
 
 atom_data={
 'H':(1,1.007940,0,'H'),
@@ -239,6 +245,8 @@ atom_data={
 (1,1):(1,1.007825,1,'1H'),
 '2H':(1,2.014102,2,'2H'),
 (1,2):(1,2.014102,2,'2H'),
+'3H':(1,3.0160492,3,'3H'),
+(1,3):(1,3.0160492,3,'3H'),
 '3He':(2,3.016029,3,'3He'),
 (2,3):(2,3.016029,3,'3He'),
 '4He':(2,4.002603,4,'4He'),
@@ -257,6 +265,8 @@ atom_data={
 (6,12):(6,12.000000,12,'12C'),
 '13C':(6,13.003355,13,'13C'),
 (6,13):(6,13.003355,13,'13C'),
+'14C':(6,14.003241989,14,'14C'),
+(6,14):(6,14.003241989,14,'14C'),
 '14N':(7,14.003074,14,'14N'),
 (7,14):(7,14.003074,14,'14N'),
 '15N':(7,15.000109,15,'15N'),
