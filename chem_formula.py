@@ -279,77 +279,6 @@ class ChemFormula(object):
             return moiety_charge_html, moiety_charge_slug
         return '', ''
                 
-    def parse_formula_old(self, formula):
-        """
-        Parse the string formula into a dictionary of element symbols and
-        an (integer) charge value.
-
-        """
-
-        self.atom_stoich = {}
-        try:
-            chargedformulaData = chargedChemicalFormula.parseString(formula)
-        except ParseException:
-            raise ChemFormulaParseError('Invalid formula syntax: %s' % formula)
-        formulaData = chargedformulaData[0]
-        
-        # parse the charge part of the formula, if present:
-        try:
-            self.charge_sign, charge_value = chargedformulaData[1]
-            self.charge = int('%s%s' % (self.charge_sign, charge_value))
-        except IndexError:
-            self.charge = 0
-
-        html_chunks = []
-        slug_chunks = []
-        # calculate the relative molecular mass as the sum of the
-        # atomic weights
-        self.rmm = 0.
-        for symbol, stoich in formulaData:
-            istoich = int(stoich)
-            if isinstance(symbol, ParseResults):
-                # we got an isotope in the form '(zSy)' with z the mass number
-                # so symbol is the ParseResults ['z', 'Sy']:
-                mass_number, symbol = int(symbol[0]), symbol[1]
-                symbol_html = '<sup>%d</sup>%s' % (mass_number, symbol)
-                symbol = '%d%s' % (mass_number, symbol)
-                slug_chunks.append('-%s' % symbol)
-            else:
-                # a regular element symbol (no mass number needed)
-                mass_number = 0
-                symbol_html = symbol
-                slug_chunks.append(symbol)
-
-            # get the atomic number and weight for this isotope or element
-            try:
-                atomic_number, atomic_weight = atom_data[symbol][:2]
-            except KeyError:
-                raise ChemFormulaParseError('Unknown element symbol %s in'
-                              ' formula %s' % (symbol, formula))
-            try:
-                self.atom_stoich[(atomic_number, mass_number)] += istoich
-            except KeyError:
-                self.atom_stoich[(atomic_number, mass_number)] = istoich
-
-            self.rmm += atomic_weight * istoich
-
-            html_chunks.append(symbol_html)
-            if istoich > 1:
-                html_chunks.append('<sub>%d</sub>' % istoich)
-                slug_chunks.append(str(istoich))
-
-        if self.charge:
-            s_charge = ''
-            if abs(self.charge) > 1:
-                s_charge = str(abs(self.charge))
-            html_chunks.append('<sup>%s%s</sup>' % (s_charge,
-                                                    self.charge_sign))
-            slug_chunks.append('_%s%s' % (slug_charge_sign[self.charge_sign],
-                                          s_charge))
-        self.html = ''.join(html_chunks)
-        # strip the leading '-' if the formula began with an isotope
-        self.slug = ''.join(slug_chunks).lstrip('-')
-
     def __str__(self):
         return self.formula
 
@@ -396,7 +325,9 @@ class ChemFormula(object):
             # in alphabetical order
             atom_strs = []
             carbon_keys = self._get_atom_stoich_keys_from_atomic_number(6)
+            atomic_number_to_remove = []
             if carbon_keys:
+                atomic_number_to_remove.append(6)
                 for carbon_key in carbon_keys:
                     symbol = atom_data[carbon_key][3]
                     if carbon_key[1]:   # isotope of C
@@ -404,6 +335,8 @@ class ChemFormula(object):
                     atom_strs.append(self._get_symbol_stoich(symbol,
                                 self.atom_stoich[carbon_key]))
                 hydrogen_keys = self._get_atom_stoich_keys_from_atomic_number(1)
+                if hydrogen_keys:
+                    atomic_number_to_remove.append(1)
                 for hydrogen_key in hydrogen_keys:
                     symbol = atom_data[hydrogen_key][3]
                     if hydrogen_key[1]: # isotope of H
@@ -413,7 +346,7 @@ class ChemFormula(object):
             # get a list of the atom_stoich_keys omitting C and H
             atom_stoich_keys = []
             for atom_stoich_key in self.atom_stoich.keys():
-                if atom_stoich_key[0] not in (1,6):
+                if atom_stoich_key[0] not in atomic_number_to_remove:
                     atom_stoich_keys.append(atom_stoich_key)
             # the remaining element symbols appear in alphabetical order
             atom_strs.extend(self._stoichiometric_formula_alphabetical(
