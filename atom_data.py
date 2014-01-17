@@ -3,10 +3,14 @@
 # Version 1.0b
 # A dictionary of meta data relating to the elements and their isotopes.
 #
-# Copyright (C) 2012 Christian Hill
+# Copyright (C) 2012-2014 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
-# The support of the Atomic and Molecular Data Unit of the IAEA
+# http://christianhill.co.uk/projects/pyvalem
+#
+# The support of the Atomic and Molecular Data Unit of the IAEA,
+# the Data Center for Plasma Properties at the Korean National Fusion
+# Research Institute and the Virtual Atomic and Molecular Data Centre
 # during the development of this library is gratefully acknowledged.
 #
 # This file is part of PyValem

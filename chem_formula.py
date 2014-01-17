@@ -4,10 +4,14 @@
 # A class representing a chemical formula, ChemFormula, and methods for
 # parsing ChemFormula objects into existence from text strings.
 #
-# Copyright (C) 2012 Christian Hill
+# Copyright (C) 2012-2014 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
-# The support of the Atomic and Molecular Data Unit of the IAEA
+# http://christianhill.co.uk/projects/pyvalem
+#
+# The support of the Atomic and Molecular Data Unit of the IAEA,
+# the Data Center for Plasma Properties at the Korean National Fusion
+# Research Institute and the Virtual Atomic and Molecular Data Centre
 # during the development of this library is gratefully acknowledged.
 #
 # This file is part of PyValem
@@ -84,7 +88,7 @@ prefix_tokens = {'(+)': 'p', '(-)': 'm', u'(±)': 'pm', 'D': 'D', 'L': 'L',
                  u'α': 'alpha', u'β': 'beta', u'γ': 'gamma',
                  'n': 'n', 'i': 'i', 't': 't', 'neo': 'neo', 'sec': 'sec',
                  'o': 'o', 'm': 'm', 'p': 'p',
-                 'ortho': 'ortho', 'meta': 'meta', 'para': 'meta',}
+                 'ortho': 'ortho', 'meta': 'meta', 'para': 'para',}
 # also allow a comma-separated list of integers, e.g. 1,1,2-
 prefix_parser = pp.delimitedList(pp.OneOrMore(integer), combine=True)
 for pt in prefix_tokens.keys():
