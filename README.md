@@ -31,4 +31,4 @@ A very quick overview:
     In [10]: ethanol.charge
     Out[10]: 0
 
-For more information and examples, see http://christianhill.co.uk/projects/pyvalem/
+For more information and examples, see http://christianhill.co.uk/projects/pyvalem
