@@ -33,5 +33,16 @@ class ChemFormulaTest(unittest.TestCase):
                                   '<sub>2</sub>CO<sub>2</sub>H')
         self.assertEqual(cf.slug, 'H2NC_CH3_2CO2H')
 
+    def test_good_formulas(self):
+        from good_formulas import good_formulas
+        for formula in good_formulas:
+            cf = ChemFormula(formula)
+            good_formulas[formula]
+            self.assertEqual(cf.stoichiometric_formula(),
+                             good_formulas[formula]['stoichiometric_formula'])
+            self.assertEqual(cf.html, good_formulas[formula]['html'])
+            self.assertEqual(cf.slug, good_formulas[formula]['slug'])
+            self.assertAlmostEqual(cf.rmm, good_formulas[formula]['rmm'])
+
 if __name__ == '__main__':
     unittest.main()

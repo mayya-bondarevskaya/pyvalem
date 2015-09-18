@@ -174,8 +174,9 @@ class ChemFormula(object):
 
     def parse_formula(self, formula):
 
-        # We make a particular exception for "M", denoting an unspecified "third-body"
-        # in many reactions. M does not have a defined charge or mass.
+        # We make a particular exception for "M", denoting an unspecified
+        # "third-body" in many reactions. M does not have a defined charge or
+        # mass.
         if formula == 'M':
             self.slug = self.html = 'M'
             self.atom_stoich = {}
@@ -204,7 +205,8 @@ class ChemFormula(object):
             pass
 
         moieties = moieties['formula']
-        for moiety in moieties:
+        nmoieties = len(moieties)
+        for i, moiety in enumerate(moieties):
             if 'prestoich' in moiety.keys():
                 # bracketed fragment, e.g. (OH)2, 3(HO2+), ...
                 prestoich = int(moiety['prestoich'])
@@ -260,6 +262,9 @@ class ChemFormula(object):
             moiety_charge_html, moiety_charge_slug=self._get_charge_reps(charge)
             html_chunks.append(moiety_charge_html)
             slug_chunks.append(moiety_charge_slug)
+            print i, nmoieties
+            if i < nmoieties-1 and nmoieties != 1:
+                slug_chunks.append('_d_')
 
             if 'poststoich' in moiety.keys():
                 html_chunks.append(')')

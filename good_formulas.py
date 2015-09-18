@@ -1,4 +1,4 @@
-#! -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 good_formulas = {
     'Br':
             {'stoichiometric_formula': 'Br',
@@ -39,7 +39,7 @@ good_formulas = {
     'SiO2.2H2O':
             {'stoichiometric_formula': 'H4O4Si',
              'html': 'SiO<sub>2</sub>2H<sub>2</sub>O',
-             'slug': None,
+             'slug': 'SiO2_d_H2O',
              'rmm': 96.11486,
             },
     'SiO2.2(H2O)': 
@@ -83,7 +83,7 @@ good_formulas = {
     '(13C)H3CH2OH':
             {'stoichiometric_formula': 'H6C(13C)O',
              'html': '<sup>13</sup>CH<sub>3</sub>CH<sub>2</sub>OH',
-             'slug': None,
+             'slug': '13CH3CH2OH',
              'rmm': 47.061095,
             },
     '(1H)3(14N)(16O)2+':
