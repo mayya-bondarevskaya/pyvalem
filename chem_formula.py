@@ -173,6 +173,15 @@ class ChemFormula(object):
         return '%s__' % slug_prefix
 
     def parse_formula(self, formula):
+
+        # We make a particular exception for "M", denoting an unspecified "third-body"
+        # in many reactions. M does not have a defined charge or mass.
+        if formula == 'M':
+            self.slug = self.html = 'M'
+            self.atom_stoich = {}
+            self.rmm = self.charge = self.natoms = None
+            return
+        
         try:
             moieties = complexChemicalFormula.parseString(formula)
         except pp.ParseException:
@@ -180,6 +189,7 @@ class ChemFormula(object):
 
         self.atom_stoich = {}
         self.charge = 0
+        self.natoms = 0
         html_chunks = []
         slug_chunks = []
         # calculate relative molecular mass as the sum of the atomic weights
@@ -235,6 +245,7 @@ class ChemFormula(object):
 
                 atom_stoich = int(atom_stoich)
                 total_atom_stoich = atom_stoich * stoich
+                self.natoms += total_atom_stoich
                 self.rmm += atomic_weight * total_atom_stoich
                 try:
                     self.atom_stoich[(Z, mass_number)] += total_atom_stoich

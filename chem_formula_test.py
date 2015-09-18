@@ -48,5 +48,5 @@ class GoodFormulas(unittest.TestCase):
                 self.assertEqual(slug, pf.slug)
             self.assertTrue(abs(rmm - pf.rmm) < 1.e-8)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
