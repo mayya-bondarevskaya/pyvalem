@@ -169,7 +169,7 @@ class ChemFormula(object):
                     raise ChemFormulaParseError('Unrecognised formula prefix'
                                 ' token: %s' % prefix_token)
             slug_prefix_tokens.append(slug_prefix_token)
-        slug_prefix = '-'.join(slug_prefix_tokens)
+        slug_prefix = '_'.join(slug_prefix_tokens)
         return '%s__' % slug_prefix
 
     def parse_formula(self, formula):
@@ -197,12 +197,9 @@ class ChemFormula(object):
         self.rmm = 0.
 
         # make the prefix html and slug
-        try:
+        if 'prefix' in moieties.keys():
             html_chunks.append(self.make_prefix_html(moieties['prefix']))
             slug_chunks.append(self.make_prefix_slug(moieties['prefix']))
-        except KeyError:
-            # no prefix
-            pass
 
         moieties = moieties['formula']
         nmoieties = len(moieties)
@@ -262,7 +259,6 @@ class ChemFormula(object):
             moiety_charge_html, moiety_charge_slug=self._get_charge_reps(charge)
             html_chunks.append(moiety_charge_html)
             slug_chunks.append(moiety_charge_slug)
-            print i, nmoieties
             if i < nmoieties-1 and nmoieties != 1:
                 slug_chunks.append('_d_')
 
@@ -323,6 +319,10 @@ class ChemFormula(object):
                 then the remaining atoms in alphabetical order.
 
         """
+
+        if self.formula == 'M':
+            # Special case for generic "third-body"
+            return 'M'
 
         fmt = fmt.lower()
         if fmt not in ('atomic number', 'hill', 'alphabetical'):
