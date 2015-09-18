@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # atom_data.py
-# Version 1.0b
+# Version 1.1
 # A dictionary of meta data relating to the elements and their isotopes.
 #
-# Copyright (C) 2012-2014 Christian Hill
+# Copyright (C) 2012-2015 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
 # http://christianhill.co.uk/projects/pyvalem

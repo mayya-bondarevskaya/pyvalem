@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # state.py
-# Version 1.0
+# Version 1.1
 # A class representing an atomic or molecular state, parsing various State
 # objects into existence from text strings.
 #

@@ -1,4 +1,13 @@
+# -*- coding: utf-8 -*-
+# test_chem_formula.py
+# Unit tests for the chem_formula module of PyValem
+#
+# Copyright (C) 2012-2015 Christian Hill
+#
+# This file is part of PyValem
+
 from chem_formula import ChemFormula
+from good_formulas import good_formulas
 import unittest
 
 class ChemFormulaTest(unittest.TestCase):
@@ -34,7 +43,6 @@ class ChemFormulaTest(unittest.TestCase):
         self.assertEqual(cf.slug, 'H2NC_d__CH3_d__2CO2H')
 
     def test_good_formulas(self):
-        from good_formulas import good_formulas
         for formula in good_formulas:
             cf = ChemFormula(formula)
             good_formulas[formula]

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # chem_formula.py
-# Version 1.0b
+# Version 1.1
 # A class representing a chemical formula, ChemFormula, and methods for
 # parsing ChemFormula objects into existence from text strings.
 #
-# Copyright (C) 2012-2014 Christian Hill
+# Copyright (C) 2012-2015 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
 # http://christianhill.co.uk/projects/pyvalem

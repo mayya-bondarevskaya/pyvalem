@@ -1,4 +1,12 @@
 # -*- coding: utf-8 -*-
+# good_formulas.py
+# A dictionary of some valid formulas to be parsed by ChemFormula and
+# their properties.
+#
+# Copyright (C) 2012-2015 Christian Hill
+#
+# This file is part of PyValem
+
 good_formulas = {
     'Br':
             {'stoichiometric_formula': 'Br',
