@@ -3,7 +3,7 @@
 # Version 1.1
 # A dictionary of meta data relating to the elements and their isotopes.
 #
-# Copyright (C) 2012-2015 Christian Hill
+# Copyright (C) 2012-2016 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
 # http://christianhill.co.uk/projects/pyvalem
