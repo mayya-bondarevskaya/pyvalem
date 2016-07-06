@@ -52,6 +52,8 @@ class ChemFormulaTest(unittest.TestCase):
             self.assertAlmostEqual(cf.rmm, good_formulas[formula]['rmm'])
             if 'natoms' in good_formulas[formula].keys():
                 self.assertEqual(cf.natoms, good_formulas[formula]['natoms'])
+            if 'latex' in good_formulas[formula].keys():
+                self.assertEqual(cf.latex, good_formulas[formula]['latex']) 
 
     def test_M(self):
         cf = ChemFormula('M')

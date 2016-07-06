@@ -12,14 +12,16 @@ good_formulas = {
              'html': 'Br',
              'slug': 'Br',
              'rmm': 79.904,
-             'natoms': 1
+             'natoms': 1,
+             'latex': r'$\mathrm{Br}$'
             },
     '(79Br)':
             {'stoichiometric_formula': '(79Br)',
              'html': '<sup>79</sup>Br',
              'slug': '79Br',
              'rmm': 78.918337,
-             'natoms': 1
+             'natoms': 1,
+             'latex': r'$^{79}\mathrm{Br}$'
             },
     '(2H)+':
             {'stoichiometric_formula': '(2H)+',
@@ -61,7 +63,7 @@ good_formulas = {
              'html': 'SiO<sub>2</sub>2(H<sub>2</sub>O)',
              'slug': 'SiO2_d_2_H2O_',
              'rmm': 96.11486,
-             'natoms': 9
+             'natoms': 9,
             },
     'Co(NH2+)(NH3)5':
             {'stoichiometric_formula': 'H17N6Co+',
@@ -69,7 +71,8 @@ good_formulas = {
                      '<sub>5</sub>',
              'slug': 'Co_d__NH2_p_d___NH3_5',
              'rmm': 160.108375,
-             'natoms': 24
+             'natoms': 24,
+             'latex': r'$\mathrm{Co}(\mathrm{N}\mathrm{H}_{2}^{+})(\mathrm{N}\mathrm{H}_{3})_{5}$'
             },
     '2H3+':
             {'stoichiometric_formula': 'H6+2',
@@ -145,13 +148,13 @@ good_formulas = {
              'slug': '1_1_D_p__CH3CH_d__Cl_d___Br_d__CH_d__F_d___Cl_d__CHCl2',
              'rmm': 294.804843,
             },
-    'para-C6H5Cl':
-            {'stoichiometric_formula': 'H5C6Cl',
-             'html': 'para-C<sub>6</sub>H<sub>5</sub>Cl',
-             'slug': 'para__C6H5Cl',
-             'rmm': 112.5569,
-             'natoms': 12
-            },
+    #'para-C6H5Cl':
+    #        {'stoichiometric_formula': 'H5C6Cl',
+    #         'html': 'para-C<sub>6</sub>H<sub>5</sub>Cl',
+    #         'slug': 'para__C6H5Cl',
+    #         'rmm': 112.5569,
+    #         'natoms': 12
+    #        },
     'cis-1,2-CHFCHF':
             {'stoichiometric_formula': 'H2C2F2',
              'html': 'cis-1,2-CHFCHF',

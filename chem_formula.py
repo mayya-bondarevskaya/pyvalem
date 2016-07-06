@@ -88,6 +88,10 @@ prefix_tokens = {'(+)': 'p', '(-)': 'm', '(±)': 'pm', 'D': 'D', 'L': 'L',
                  'n': 'n', 'i': 'i', 't': 't', 'neo': 'neo', 'sec': 'sec',
                  'o': 'o', 'm': 'm', 'p': 'p',
                  'ortho': 'ortho', 'meta': 'meta', 'para': 'para',}
+
+latex_prefix_dict = {'(±)': r'\pm',  'Δ': r'\Delta', 'Λ': r'\Lambda',
+                     'α': r'\alpha', 'β': r'\beta', 'γ': r'\gamma'}
+
 # also allow a comma-separated list of integers, e.g. 1,1,2-
 prefix_parser = pp.delimitedList(pp.OneOrMore(integer), combine=True)
 for pt in prefix_tokens.keys():
@@ -145,6 +149,20 @@ class ChemFormula(object):
         prefix = prefix.replace('L', '<span style="font-size: 80%;">L</span>')
         return '%s-' % prefix
 
+    def make_prefix_latex(self, prefix_list):
+        """
+        Make the prefix LaTeX.
+        """
+
+        latex_prefixes = []
+        for prefix in prefix_list:
+            try:
+                latex_prefix = latex_prefix_dict[prefix]
+            except KeyError:
+                latex_prefix = prefix
+        prefix = '-'.join(latex_prefix)
+        return '{}-'.format(prefix)
+
     def make_prefix_slug(self, prefix_list):
         """
         Make the prefix slug: commas are replaced by underscores and non-ASCII
@@ -157,7 +175,7 @@ class ChemFormula(object):
         slug_prefix_tokens = []
         for prefix_token in prefix_list:
             # TODO don't allow matches including numbers with leading zeros
-            if re.match('^\d+(,\d+)*$', prefix_token):
+            if re.match(r'^\d+(,\d+)*$', prefix_token):
                 # this prefix token is a comma-separated list of numbers
                 slug_prefix_token = prefix_token.replace(',', '_')
             else:
@@ -166,10 +184,10 @@ class ChemFormula(object):
                     slug_prefix_token = prefix_tokens[prefix_token]
                 except KeyError:
                     raise ChemFormulaParseError('Unrecognised formula prefix'
-                                ' token: %s' % prefix_token)
+                                ' token: {}'.format(prefix_token))
             slug_prefix_tokens.append(slug_prefix_token)
         slug_prefix = '_'.join(slug_prefix_tokens)
-        return '%s__' % slug_prefix
+        return '{}__'.format(slug_prefix)
 
     def parse_formula(self, formula):
 
@@ -177,7 +195,7 @@ class ChemFormula(object):
         # "third-body" in many reactions. M does not have a defined charge or
         # mass.
         if formula == 'M':
-            self.slug = self.html = 'M'
+            self.slug = self.html = self.latex = 'M'
             self.atom_stoich = {}
             self.rmm = self.charge = self.natoms = None
             return
@@ -191,6 +209,7 @@ class ChemFormula(object):
         self.charge = 0
         self.natoms = 0
         html_chunks = []
+        latex_chunks = []
         slug_chunks = []
         # calculate relative molecular mass as the sum of the atomic weights
         self.rmm = 0.
@@ -198,6 +217,7 @@ class ChemFormula(object):
         # make the prefix html and slug
         if 'prefix' in moieties.keys():
             html_chunks.append(self.make_prefix_html(moieties['prefix']))
+            latex_chunks.append(self.make_prefix_latex(moieties['prefix']))
             slug_chunks.append(self.make_prefix_slug(moieties['prefix']))
 
         moieties = moieties['formula']
@@ -209,7 +229,9 @@ class ChemFormula(object):
                 if prestoich > 1:
                     slug_chunks.append(moiety['prestoich'])
                     html_chunks.append(moiety['prestoich'])
+                    latex_chunks.append(moiety['prestoich'])
                 html_chunks.append('(')
+                latex_chunks.append('(')
                 slug_chunks.append('_')
                 poststoich = int(moiety['poststoich'])
                 stoich = prestoich * poststoich
@@ -219,6 +241,7 @@ class ChemFormula(object):
                 if stoich > 1:
                     slug_chunks.append(moiety['stoich'])
                     html_chunks.append(moiety['stoich'])
+                    latex_chunks.append(moiety['stoich'])
             charge = int(moiety['charge'])
             self.charge += charge * stoich
             for atom in moiety['atoms']:
@@ -227,13 +250,17 @@ class ChemFormula(object):
                 if isinstance(atom_symbol, pp.ParseResults):
                     # we got an isotope in the form '(zSy)' with z the mass
                     # number so symbol is the ParseResults ['z', 'Sy']:
-                    mass_number,atom_symbol = int(atom_symbol[0]),atom_symbol[1]
-                    symbol_html = '<sup>%d</sup>%s' % (mass_number, atom_symbol)
+                    mass_number, atom_symbol = (int(atom_symbol[0]),
+                                                atom_symbol[1])
+                    symbol_html = '<sup>%d</sup>%s' % (mass_number,atom_symbol)
+                    symbol_latex = '^{{{0:d}}}\mathrm{{{1:s}}}'.format(
+                                                mass_number, atom_symbol)
                     atom_symbol = '%d%s' % (mass_number, atom_symbol)
                     slug_chunks.append('-%s' % atom_symbol)
                 else:
                     mass_number = 0
                     symbol_html = atom_symbol
+                    symbol_latex = '\\mathrm{{{0:s}}}'.format(atom_symbol)
                     slug_chunks.append(atom_symbol)
                 try:
                     Z, atomic_weight = atom_data[atom_symbol][:2]
@@ -251,28 +278,36 @@ class ChemFormula(object):
                     self.atom_stoich[(Z, mass_number)] = total_atom_stoich
 
                 html_chunks.append(symbol_html)
+                latex_chunks.append(symbol_latex)
                 if atom_stoich > 1:
                     html_chunks.append('<sub>%d</sub>' % atom_stoich)
+                    latex_chunks.append('_{{{0}}}'.format(atom_stoich))
                     slug_chunks.append(str(atom_stoich))
 
-            moiety_charge_html, moiety_charge_slug=self._get_charge_reps(charge)
+            (moiety_charge_html, moiety_charge_latex,
+                         moiety_charge_slug) = self._get_charge_reps(charge)
             html_chunks.append(moiety_charge_html)
+            latex_chunks.append(moiety_charge_latex)
             slug_chunks.append(moiety_charge_slug)
             if i < nmoieties-1 and nmoieties != 1:
                 slug_chunks.append('_d_')
 
             if 'poststoich' in moiety.keys():
                 html_chunks.append(')')
+                latex_chunks.append(')')
                 slug_chunks.append('_')
                 if poststoich > 1:
                     html_chunks.append('<sub>%d</sub>' % poststoich)
+                    latex_chunks.append('_{{{0:d}}}'.format(poststoich))
                     slug_chunks.append('%d' % poststoich)
 
             if 'radical' in moiety.keys():
                 html_chunks.append('&#183;')
+                latex_chunks.append(r'\cdot')
                 slug_chunks.append('_dot')
 
         self.html = ''.join(html_chunks)
+        self.latex = '${0:s}$'.format(''.join(latex_chunks))
         # strip the leading '-' if the formula began with an isotope
         self.slug = ''.join(slug_chunks).lstrip('-')
 
@@ -285,10 +320,12 @@ class ChemFormula(object):
             if charge < 0:
                 s_charge_sign = '-'
             moiety_charge_html = '<sup>%s%s</sup>' % (s_charge,s_charge_sign)
+            moiety_charge_latex = '^{{{0:s}{1:s}}}'.format(s_charge,
+                                                           s_charge_sign)
             moiety_charge_slug = '_%s%s' % (slug_charge_sign[s_charge_sign],
                                             s_charge)
-            return moiety_charge_html, moiety_charge_slug
-        return '', ''
+            return moiety_charge_html, moiety_charge_latex, moiety_charge_slug
+        return '', '', ''
                 
     def __str__(self):
         return self.formula
@@ -304,7 +341,8 @@ class ChemFormula(object):
         return atom_strs
 
     def _stoichiometric_formula_alphabetical(self, atom_stoich_keys):
-        atom_strs = self._stoichiometric_formula_atomic_number(atom_stoich_keys)
+        atom_strs = self._stoichiometric_formula_atomic_number(
+                                                    atom_stoich_keys)
         atom_strs.sort()
         return atom_strs
 
