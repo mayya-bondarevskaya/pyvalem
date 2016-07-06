@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # atom_data.py
 # Version 1.1
 # A dictionary of meta data relating to the elements and their isotopes.

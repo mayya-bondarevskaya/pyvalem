@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # state.py
 # Version 1.1
 # A class representing an atomic or molecular state, parsing various State
 # objects into existence from text strings.
 #
-# Copyright (C) 2012-2015 Christian Hill
+# Copyright (C) 2012-2016 Christian Hill
 # xn.hill@gmail.com
 # http://christianhill.co.uk/projects/pyvalem
 #
@@ -70,7 +69,7 @@ class AtomicTermSymbol(State):
                 
     def validate_J(self):
         if not abs(self.L - self.S) <= self.J <= self.L + self.S:
-            raise StateParseError(u'Invalid atomic term symbol: {0:s}'
+            raise StateParseError('Invalid atomic term symbol: {0:s}'
                 ' |L-S| <= J <= L+S must be satisfied.'.format(self.state_str))
 
     @property

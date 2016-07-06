@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # test_chem_formula.py
 # Unit tests for the chem_formula module of PyValem
 #
-# Copyright (C) 2012-2015 Christian Hill
+# Copyright (C) 2012-2016 Christian Hill
 #
 # This file is part of PyValem
 
@@ -45,7 +44,7 @@ class ChemFormulaTest(unittest.TestCase):
     def test_good_formulas(self):
         for formula in good_formulas:
             cf = ChemFormula(formula)
-            good_formulas[formula]
+            print(formula)
             self.assertEqual(cf.stoichiometric_formula(),
                              good_formulas[formula]['stoichiometric_formula'])
             self.assertEqual(cf.html, good_formulas[formula]['html'])

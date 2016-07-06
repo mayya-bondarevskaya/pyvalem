@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # test_state.py
 # Unit tests for the state module of PyValem
 #
-# Copyright (C) 2012-2015 Christian Hill
+# Copyright (C) 2012-2016 Christian Hill
 #
 # This file is part of PyValem
 

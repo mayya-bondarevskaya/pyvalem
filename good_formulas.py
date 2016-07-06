@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # good_formulas.py
 # A dictionary of some valid formulas to be parsed by ChemFormula and
 # their properties.
@@ -86,7 +85,7 @@ good_formulas = {
              'rmm': 180.0267,
              'natoms': 12
             },
-    u'C2H5·':
+    'C2H5·':
             {'stoichiometric_formula': 'H5C2',
              'html': 'C<sub>2</sub>H<sub>5</sub>&#183;',
              'slug': 'C2H5_dot',
@@ -125,9 +124,9 @@ good_formulas = {
              'rmm': 88.08524,
              'natoms': 12
             },
-    u'(±)-CHClBrF':
+    '(±)-CHClBrF':
             {'stoichiometric_formula': 'HCFClBr',
-             'html': u'(±)-CHClBrF',
+             'html': '(±)-CHClBrF',
              'slug': 'pm__CHClBrF',
              'rmm': 147.374043,
              'natoms': 5
@@ -146,10 +145,10 @@ good_formulas = {
              'slug': '1_1_D_p__CH3CH_d__Cl_d___Br_d__CH_d__F_d___Cl_d__CHCl2',
              'rmm': 294.804843,
             },
-    'meta-C6H5Cl':
+    'para-C6H5Cl':
             {'stoichiometric_formula': 'H5C6Cl',
-             'html': 'meta-C<sub>6</sub>H<sub>5</sub>Cl',
-             'slug': 'meta__C6H5Cl',
+             'html': 'para-C<sub>6</sub>H<sub>5</sub>Cl',
+             'slug': 'para__C6H5Cl',
              'rmm': 112.5569,
              'natoms': 12
             },

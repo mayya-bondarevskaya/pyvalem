@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # chem_formula.py
 # Version 1.1
 # A class representing a chemical formula, ChemFormula, and methods for
 # parsing ChemFormula objects into existence from text strings.
 #
-# Copyright (C) 2012-2015 Christian Hill
+# Copyright (C) 2012-2016 Christian Hill
 # Department of Physics and Astronomy, University College London
 # christian.hill@ucl.ac.uk
 # http://christianhill.co.uk/projects/pyvalem
@@ -59,7 +58,7 @@ elementRef = pp.Group((isotope | element).setResultsName('atom_symbol')+stoich)
 # A chemicalFormula is a series of elementRefs
 chemicalFormula = pp.Group(pp.OneOrMore(elementRef)).setResultsName('atoms')
 # Radicals must be specified with the unicode character '·' (U+00B7)
-radicalDot = pp.Optional(u'·').setResultsName('radical')
+radicalDot = pp.Optional('·').setResultsName('radical')
 
 # A chargedChemicalFormula is a chemicalFormula with an optional pre-
 # stoichiometry, radical dot and charge
@@ -81,11 +80,11 @@ chemical_formula_fragments = pp.OneOrMore(chemical_formula_fragment)\
 # These are the formula prefix tokens we recognise and their slugs
 # NB be careful to ensure that the slugs remain case-insensitive!
 # For example, '(S)-' -> 'S-' but 's-' -> 'syn-'
-prefix_tokens = {'(+)': 'p', '(-)': 'm', u'(±)': 'pm', 'D': 'D', 'L': 'L',
+prefix_tokens = {'(+)': 'p', '(-)': 'm', '(±)': 'pm', 'D': 'D', 'L': 'L',
                  '(R)': 'R', '(S)': 'S', '(E)': 'E', '(Z)': 'Z',
                  'cis': 'cis', 'trans': 'trans', 's': 'syn', 'a': 'anti',
-                 u'Δ': 'Delta', u'Λ': 'Lambda',
-                 u'α': 'alpha', u'β': 'beta', u'γ': 'gamma',
+                 'Δ': 'Delta', 'Λ': 'Lambda',
+                 'α': 'alpha', 'β': 'beta', 'γ': 'gamma',
                  'n': 'n', 'i': 'i', 't': 't', 'neo': 'neo', 'sec': 'sec',
                  'o': 'o', 'm': 'm', 'p': 'p',
                  'ortho': 'ortho', 'meta': 'meta', 'para': 'para',}
@@ -94,8 +93,8 @@ prefix_parser = pp.delimitedList(pp.OneOrMore(integer), combine=True)
 for pt in prefix_tokens.keys():
     prefix_parser |= pp.Literal(pt)
 # Any number of prefix tokens may appear, separated by a hyphen
-prefix_list_parser = (pp.delimitedList(prefix_parser, delim='-')#, combine=True)
-                        + pp.Suppress(pp.Literal('-'))).setResultsName('prefix')
+prefix_list_parser = (pp.delimitedList(prefix_parser, delim='-')
+                       + pp.Suppress(pp.Literal('-'))).setResultsName('prefix')
 
 # TODO (2R,3R)- (2R, 3S)-, etc...
 
