@@ -5,7 +5,7 @@
 #
 # This file is part of PyValem
 
-from state import AtomicTermSymbol
+from ..state import AtomicTermSymbol
 import unittest
 
 class AtomicTermSymbolTest(unittest.TestCase):

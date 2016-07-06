@@ -5,8 +5,8 @@
 #
 # This file is part of PyValem
 
-from chem_formula import ChemFormula
-from good_formulas import good_formulas
+from ..chem_formula import ChemFormula
+from .good_formulas import good_formulas
 import unittest
 
 class ChemFormulaTest(unittest.TestCase):

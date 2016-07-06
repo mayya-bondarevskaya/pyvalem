@@ -31,7 +31,7 @@
 import sys
 import re
 import pyparsing as pp
-from atom_data import element_symbols, atom_data
+from .atom_data import element_symbols, atom_data
 
 element = pp.oneOf(element_symbols)
 # TODO don't allow leading 0
@@ -200,6 +200,17 @@ class ChemFormula(object):
             self.rmm = self.charge = self.natoms = None
             return
         
+        # Also make an exception for "e-", denoting an electron.
+        if formula == 'e-':
+            self.slug = 'e_m'
+            self.html = 'e<sup>-</sup>'
+            self.latex = '$e^-$'
+            self.atom_stoich = {}
+            self.rmm = 5.48579909e-04   # m_e / u
+            self.charge = -1
+            self.natoms = None
+            return
+
         try:
             moieties = complexChemicalFormula.parseString(formula)
         except pp.ParseException:
