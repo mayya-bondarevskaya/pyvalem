@@ -3,3 +3,6 @@
 *.swo
 .DS_Store
 check_db_species.py
+build/
+dist/
+pyqn.egg-info/
