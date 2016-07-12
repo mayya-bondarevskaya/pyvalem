@@ -1,0 +1,9 @@
+setup.py
+pyvalem/__init__.py
+pyvalem/atom_data.py
+pyvalem/chem_formula.py
+pyvalem/state.py
+pyvalem.egg-info/PKG-INFO
+pyvalem.egg-info/SOURCES.txt
+pyvalem.egg-info/dependency_links.txt
+pyvalem.egg-info/top_level.txt

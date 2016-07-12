@@ -1,5 +1,5 @@
 # state.py
-# Version 1.1
+# Version 1.2
 # A class representing an atomic or molecular state, parsing various State
 # objects into existence from text strings.
 #

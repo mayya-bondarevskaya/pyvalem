@@ -1,5 +1,5 @@
 # chem_formula.py
-# Version 1.1
+# Version 1.2
 # A class representing a chemical formula, ChemFormula, and methods for
 # parsing ChemFormula objects into existence from text strings.
 #

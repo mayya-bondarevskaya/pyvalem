@@ -1,5 +1,5 @@
 # atom_data.py
-# Version 1.1
+# Version 1.2
 # A dictionary of meta data relating to the elements and their isotopes.
 #
 # Copyright (C) 2012-2016 Christian Hill
