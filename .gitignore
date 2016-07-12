@@ -5,4 +5,4 @@
 check_db_species.py
 build/
 dist/
-pyqn.egg-info/
+pyvalem.egg-info/
