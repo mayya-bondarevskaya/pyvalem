@@ -38,6 +38,12 @@ atom_parity = pp.Literal('o').setResultsName('parity')
 atom_term = (atom_Smult + atom_Lletter + pp.Optional(atom_parity) +
              pp.Optional(pp.Suppress('_') + atom_Jstr))
 
+class StateParseError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return repr(self.msg)
+
 class State(object):
     def __init__(self, state_str):
         self.state_str = state_str

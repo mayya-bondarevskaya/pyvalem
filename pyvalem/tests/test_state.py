@@ -5,7 +5,7 @@
 #
 # This file is part of PyValem
 
-from ..state import AtomicTermSymbol
+from ..state import StateParseError, AtomicTermSymbol
 import unittest
 
 class AtomicTermSymbolTest(unittest.TestCase):
@@ -24,6 +24,9 @@ class AtomicTermSymbolTest(unittest.TestCase):
         self.assertEqual(a1.S, 1.5)
         self.assertEqual(a1.L, 2)
         self.assertIsNone(a1.J)
+
+
+        self.assertRaises(StateParseError, AtomicTermSymbol, '1P_0')
 
 if __name__ == '__main__':
     unittest.main()
