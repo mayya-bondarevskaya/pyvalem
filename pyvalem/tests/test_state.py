@@ -25,7 +25,6 @@ class AtomicTermSymbolTest(unittest.TestCase):
         self.assertEqual(a1.L, 2)
         self.assertIsNone(a1.J)
 
-
         self.assertRaises(StateParseError, AtomicTermSymbol, '1P_0')
 
 if __name__ == '__main__':

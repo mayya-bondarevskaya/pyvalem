@@ -82,7 +82,7 @@ class AtomicTermSymbol(State):
     def html(self):
         html_chunks = ['<sup>{0:d}</sup>{1:s}'.format(self.Smult, self.Lletter)]
         if self.parity:
-            html_chunks.append('<sup>o</sup')
+            html_chunks.append('<sup>o</sup>')
         if self.J is not None:
             if self.J.is_integer():
                 Jstr = str(int(self.J))
