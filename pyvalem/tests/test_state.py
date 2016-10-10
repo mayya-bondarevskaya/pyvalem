@@ -25,6 +25,11 @@ class AtomicTermSymbolTest(unittest.TestCase):
         self.assertEqual(a1.L, 2)
         self.assertIsNone(a1.J)
 
+        a2 = AtomicTermSymbol('2Po_1/2')
+        self.assertEqual(a2.html, '<sup>2</sup>P<sup>o</sup><sub>1/2</sub>')
+        self.assertEqual(a2.parity, 'o')
+        self.assertEqual(a2.L, 1)
+
         self.assertRaises(StateParseError, AtomicTermSymbol, '1P_0')
 
 if __name__ == '__main__':
