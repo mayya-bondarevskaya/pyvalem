@@ -73,7 +73,7 @@ class AtomicConfiguration(State):
             raise StateParseError('Invalid atomic electronic configuration'
                                   ' syntax: {0}'.format(state_str))
 
-        # Expand out nobel gas notation, if used, and check that the
+        # Expand out noble gas notation, if used, and check that the
         # subshells 1s, 2s, 2p, ... are unique.
         subshells = self.expand_noble_gas_config(self.state_str)
         subshells = [subshell[:2] for subshell in subshells.split('.')]
@@ -87,6 +87,7 @@ class AtomicConfiguration(State):
             orbital = AtomicOrbital(n=parsed_orbital['n'],
                                     lletter=parsed_orbital['lletter'],
                                     nocc=parsed_orbital['nocc'])
+            self.orbitals.append(orbital)
 
         # Check that the subshells specified are unique
         if len(subshells) != len(set(subshells)):
