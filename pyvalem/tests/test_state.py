@@ -37,6 +37,8 @@ class AtomicTermSymbolTest(unittest.TestCase):
 class AtomicConfigurationTest(unittest.TestCase):
 
     def test_atomic_configuration(self):
+        c4 = AtomicConfiguration('[He].2s1')
+
         c0 = AtomicConfiguration('1s2')
         c1 = AtomicConfiguration('1s2.2s2')
         c2 = AtomicConfiguration('1s2.2s2.2p6')
@@ -45,12 +47,15 @@ class AtomicConfigurationTest(unittest.TestCase):
         self.assertRaises(StateParseError, AtomicConfiguration, '1s 2.2s2')
         self.assertRaises(StateParseError, AtomicConfiguration, '1s2. 2s2')
         self.assertRaises(StateParseError, AtomicConfiguration, '1s2 2s2 2p6')
+        self.assertRaises(StateParseError, AtomicConfiguration, 'He.2s1')
+        self.assertRaises(StateParseError, AtomicConfiguration, '[Bi].2s1')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.1s2.2s2')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.2s2.2p7')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.2s2.2d2')
+
 
 
 if __name__ == '__main__':
