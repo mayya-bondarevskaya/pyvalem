@@ -8,6 +8,7 @@
 from ..state import StateParseError
 from ..atomic_term_symbol import AtomicTermSymbol
 from ..atomic_configuration import AtomicConfiguration,AtomicConfigurationError
+from ..molecular_term_symbol import MolecularTermSymbol
 import unittest
 
 class AtomicTermSymbolTest(unittest.TestCase):
@@ -37,6 +38,8 @@ class AtomicTermSymbolTest(unittest.TestCase):
 class AtomicConfigurationTest(unittest.TestCase):
 
     def test_atomic_configuration(self):
+        c4 = AtomicConfiguration('[He].2s1')
+
         c0 = AtomicConfiguration('1s2')
         c1 = AtomicConfiguration('1s2.2s2')
         c2 = AtomicConfiguration('1s2.2s2.2p6')
@@ -45,6 +48,8 @@ class AtomicConfigurationTest(unittest.TestCase):
         self.assertRaises(StateParseError, AtomicConfiguration, '1s 2.2s2')
         self.assertRaises(StateParseError, AtomicConfiguration, '1s2. 2s2')
         self.assertRaises(StateParseError, AtomicConfiguration, '1s2 2s2 2p6')
+        self.assertRaises(StateParseError, AtomicConfiguration, 'He.2s1')
+        self.assertRaises(StateParseError, AtomicConfiguration, '[Bi].2s1')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.1s2.2s2')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
@@ -52,6 +57,11 @@ class AtomicConfigurationTest(unittest.TestCase):
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.2s2.2d2')
 
+class MolecularTermSymbolTest(unittest.TestCase):
+
+    def test_molecular_term_symbol(self):
+        c0 = MolecularTermSymbol('X(4Π)')
+        self.assertRaises(StateParseError, MolecularTermSymbol, 'X(Π)')
 
 if __name__ == '__main__':
     unittest.main()
