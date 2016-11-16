@@ -10,6 +10,7 @@
 
 import pyparsing as pp
 from .state import State, StateParseError
+from .utils import parse_fraction
 
 orbital_irrep_labels = (
     'Σ-', 'Σ+', 'Π', 'Δ',
@@ -24,19 +25,25 @@ orbital_irrep_labels = (
     'E', "E'", 'E"', 'E1', 'E2',
     'Eg', "E'g", 'E"g', 'E1g', 'E2g',
     'Eu', "E'u", 'E"u', 'E1u', 'E2u',
+    'T1', 'T2',
+    'Tg', 'Tu',
+    'T1g', 'T1u', 'T2g', 'T1u',
 )
 
 integer = pp.Word(pp.nums)
 molecule_Smult = integer.setResultsName('Smult')
-molecule_irrep_label = pp.oneOf(orbital_irrep_labels).setResultsName('irrep')
-molecule_Jstr = (pp.Optional(pp.oneOf(('+','-'))) +
-                 integer +
+molecule_irrep = pp.oneOf(orbital_irrep_labels).setResultsName('irrep')
+molecule_Jstr = (pp.Combine(pp.Optional(pp.oneOf(('+','-'))) +
+                 integer) +
                  pp.Optional(pp.Suppress('/')+'2')).setResultsName('Jstr')
-molecule_term = (molecule_Smult + molecule_irrep_label +
+molecule_term = (molecule_Smult + molecule_irrep +
                  pp.Optional(pp.Suppress('_') + molecule_Jstr))
-molecule_term_with_label = (pp.Word(pp.srange('[A-Z]')) +
-                            pp.Optional(pp.oneOf(("'", '"'))) +
-                            pp.Suppress('(') + molecule_term + pp.Suppress(')')
+term_label = pp.Combine(pp.Word(pp.srange('[A-Za-z]')) +
+                        pp.Optional(pp.oneOf(("'", '"')))
+                       ).setResultsName('term_label')
+molecule_term_with_label = (
+        pp.Optional(term_label) +
+        pp.Suppress('(') + molecule_term + pp.Suppress(')')
                            )
 
 class MolecularTermSymbol(State):
@@ -48,3 +55,14 @@ class MolecularTermSymbol(State):
         except pp.ParseException:
             raise StateParseError('Invalid molecular term symbol syntax: {0}'
                                             .format(state_str))
+        self.Smult = int(components.Smult)
+        self.irrep = components.irrep
+        self.term_label = components.term_label or None
+        self.J = parse_fraction(components.Jstr)
+
+    @property
+    def html(self):
+        # Mayya TODO
+
+        return ''.join(html_chunks)
+
