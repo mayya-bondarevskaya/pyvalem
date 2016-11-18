@@ -10,6 +10,7 @@
 
 import pyparsing as pp
 from .state import State, StateParseError
+from .utils import parse_fraction
 
 orbital_irrep_labels = (
     'Σ-', 'Σ-u', 'Σ-g',
@@ -23,7 +24,8 @@ orbital_irrep_labels = (
     'B', "B'", 'B"', 'B1', 'B2', 'B3',
     'Bg', "B'g", 'B"g', 'B1g', 'B2g', 'B3g',
     'Bu', "B'u", 'B"u', 'B1u', 'B2u', 'B3u',
-    'E', "E'", 'E"', 'E1', "E'1", 'E"1', 'E2', "E'2", 'E"2', 'E3', "E'3", 'E"3', 'E4', 'E5', 'E6', 'E7',
+    'E', "E'", 'E"', 'E1', "E'1", 'E"1', 'E2', "E'2", 'E"2',
+    'E3', "E'3", 'E"3', 'E4', 'E5', 'E6', 'E7',
     'Eg', "E'g", 'E"g', 'E1g', 'E2g', 'E3g',
     'Eu', "E'u", 'E"u', 'E1u', 'E2u', 'E3u',
     'T', 'T1', 'T2',
@@ -33,17 +35,22 @@ orbital_irrep_labels = (
     'H', 'Hg', 'Hu'
 )
 
+
 integer = pp.Word(pp.nums)
 molecule_Smult = integer.setResultsName('Smult')
-molecule_irrep_label = pp.oneOf(orbital_irrep_labels).setResultsName('irrep')
-molecule_Jstr = (pp.Optional(pp.oneOf(('+','-'))) +
-                 integer +
+molecule_irrep = pp.oneOf(orbital_irrep_labels).setResultsName('irrep')
+molecule_Jstr = (pp.Combine(pp.Optional(pp.oneOf(('+','-'))) +
+                 integer) +
                  pp.Optional(pp.Suppress('/')+'2')).setResultsName('Jstr')
-molecule_term = (molecule_Smult + molecule_irrep_label +
+molecule_term = (molecule_Smult + molecule_irrep +
                  pp.Optional(pp.Suppress('_') + molecule_Jstr))
-molecule_term_with_label = (pp.Word(pp.srange('[A-Z]')) +
-                            pp.Optional(pp.oneOf(("'", '"'))) +
-                            pp.Suppress('(') + molecule_term + pp.Suppress(')')
+term_label = pp.Combine(pp.Word(pp.srange('[A-Za-z]')) +
+                        pp.Optional(pp.oneOf(("'", '"')))
+                       ).setResultsName('term_label')
+molecule_term_with_label = (
+        pp.Optional(term_label) +
+        pp.Suppress(pp.Optional('(')) + molecule_term +
+        pp.Suppress(pp.Optional(')'))
                            )
 
 class MolecularTermSymbol(State):
@@ -55,3 +62,39 @@ class MolecularTermSymbol(State):
         except pp.ParseException:
             raise StateParseError('Invalid molecular term symbol syntax: {0}'
                                             .format(state_str))
+        self.Smult = int(components.Smult)
+        self.irrep = components.irrep
+        self.term_label = components.term_label or None
+        self.J = parse_fraction(components.Jstr)
+
+    def irrep_html(self, irrep):
+        irrep_chunks = []
+        if '+' in irrep or '-' in irrep:
+            irrep_chunks.append('{0:s}<sup>{1:s}</sup>'.format(irrep[0],irrep[1]))
+            next_idx = 2
+        elif '"' in irrep or "'" in irrep:
+            irrep_chunks.append(irrep[0:2])
+            next_idx = 2
+        else:
+            irrep_chunks.append(irrep[0])
+            next_idx = 1
+        if irrep[next_idx:] is not '':
+            irrep_chunks.append('<sub>{:s}</sub>'.format(irrep[next_idx:]))
+        return ''.join(irrep_chunks)
+        
+    @property
+    def html(self):
+        # Mayya TODO
+        html_chunks = []
+        if self.term_label is not None:
+            html_chunks.append('{:s}('.format(self.term_label))
+        html_chunks.append('<sup>{0:d}</sup>{1:s}'.format(self.Smult,self.irrep_html(self.irrep)))
+        if self.J is not None:
+            if self.J.is_integer():
+                Jstr = str(int(self.J))
+            else:
+                Jstr = '{0:d}/2'.format(int(2*self.J))
+            html_chunks.append('<sub>{0:s}</sub>'.format(Jstr))
+        if self.term_label is not None:
+            html_chunks.append(')')
+        return ''.join(html_chunks)

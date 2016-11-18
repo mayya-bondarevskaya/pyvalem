@@ -10,6 +10,7 @@
 
 import pyparsing as pp
 from .state import State, StateParseError
+from .utils import parse_fraction
 
 atom_L_symbols = ('S', 'P', 'D', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O',
                   'Q', 'R', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')
@@ -37,13 +38,7 @@ class AtomicTermSymbol(State):
         self.Lletter = components.Lletter
         self.L = atom_L_symbols.index(components.Lletter)
         self.parity = components.get('parity')
-        self.J = None
-        if len(components.Jstr) == 2:
-            num, det = components.Jstr
-            self.J = float(num) / int(det)
-        else:
-            if components.Jstr:
-                self.J = float(components.Jstr[0])
+        self.J = parse_fraction(components.Jstr)
         if self.J is not None:
             self.validate_J()
                 
