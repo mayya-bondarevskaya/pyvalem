@@ -35,6 +35,7 @@ orbital_irrep_labels = (
     'H', 'Hg', 'Hu'
 )
 
+
 integer = pp.Word(pp.nums)
 molecule_Smult = integer.setResultsName('Smult')
 molecule_irrep = pp.oneOf(orbital_irrep_labels).setResultsName('irrep')
@@ -66,9 +67,34 @@ class MolecularTermSymbol(State):
         self.term_label = components.term_label or None
         self.J = parse_fraction(components.Jstr)
 
+    def irrep_html(self, irrep):
+        irrep_chunks = []
+        if '+' in irrep or '-' in irrep:
+            irrep_chunks.append('{0:s}<sup>{1:s}</sup>'.format(irrep[0],irrep[1]))
+            next_idx = 2
+        elif '"' in irrep or "'" in irrep:
+            irrep_chunks.append(irrep[0:2])
+            next_idx = 2
+        else:
+            irrep_chunks.append(irrep[0])
+            next_idx = 1
+        if irrep[next_idx:] is not '':
+            irrep_chunks.append('<sub>{:s}</sub>'.format(irrep[next_idx:]))
+        return ''.join(irrep_chunks)
+        
     @property
     def html(self):
         # Mayya TODO
-
+        html_chunks = []
+        if self.term_label is not None:
+            html_chunks.append('{:s}('.format(self.term_label))
+        html_chunks.append('<sup>{0:d}</sup>{1:s}'.format(self.Smult,self.irrep_html(self.irrep)))
+        if self.J is not None:
+            if self.J.is_integer():
+                Jstr = str(int(self.J))
+            else:
+                Jstr = '{0:d}/2'.format(int(2*self.J))
+            html_chunks.append('<sub>{0:s}</sub>'.format(Jstr))
+        if self.term_label is not None:
+            html_chunks.append(')')
         return ''.join(html_chunks)
-
