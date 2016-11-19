@@ -50,12 +50,22 @@ class AtomicConfigurationTest(unittest.TestCase):
         self.assertRaises(StateParseError, AtomicConfiguration, '1s2 2s2 2p6')
         self.assertRaises(StateParseError, AtomicConfiguration, 'He.2s1')
         self.assertRaises(StateParseError, AtomicConfiguration, '[Bi].2s1')
+        self.assertRaises(StateParseError, AtomicConfiguration, '1ss2')
+        self.assertRaises(StateParseError, AtomicConfiguration, '1s2..2s2')
+        self.assertRaises(StateParseError, AtomicConfiguration, '1s2,2s2,2p6')
+        self.assertRaises(StateParseError, AtomicConfiguration, '1s2;2s2:2p6')
+        self.assertRaises(StateParseError, AtomicConfiguration, '')
+        self.assertRaises(StateParseError, AtomicConfiguration, '.1s2')
+        self.assertRaises(StateParseError, AtomicConfiguration, '[He].[Ne]')
+        self.assertRaises(StateParseError, AtomicConfiguration, '[He]2s1')
+        
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.1s2.2s2')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.2s2.2p7')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.2s2.2d2')
+ 
 
 class MolecularTermSymbolTest(unittest.TestCase):
 

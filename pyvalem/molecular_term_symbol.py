@@ -13,21 +13,26 @@ from .state import State, StateParseError
 from .utils import parse_fraction
 
 orbital_irrep_labels = (
-    'Σ-', 'Σ+', 'Π', 'Δ',
-    'Σ-u', 'Σ+u', 'Πu', 'Δu',
-    'Σ-g', 'Σ+g', 'Πg', 'Δg',
-    'A', "A'", 'A"', 'A1', 'A2', 'A3',
+    'Σ-', 'Σ-u', 'Σ-g',
+    'Σ+', 'Σ+u', 'Σ+g', 
+    'Π', 'Πu', 'Πg', 
+    'Δ','Δu','Δg',
+    'Φ', 'Φg', 'Φu',
+    'A', "A'", 'A"', 'A1', "A'1", 'A"1', 'A2', "A'2", 'A"2', 'A3',
     'Ag', "A'g", 'A"g', 'A1g', 'A2g', 'A3g',
     'Au', "A'u", 'A"u', 'A1u', 'A2u', 'A3u',
     'B', "B'", 'B"', 'B1', 'B2', 'B3',
     'Bg', "B'g", 'B"g', 'B1g', 'B2g', 'B3g',
     'Bu', "B'u", 'B"u', 'B1u', 'B2u', 'B3u',
-    'E', "E'", 'E"', 'E1', 'E2',
-    'Eg', "E'g", 'E"g', 'E1g', 'E2g',
-    'Eu', "E'u", 'E"u', 'E1u', 'E2u',
-    'T1', 'T2',
-    'Tg', 'Tu',
-    'T1g', 'T1u', 'T2g', 'T1u',
+    'E', "E'", 'E"', 'E1', "E'1", 'E"1', 'E2', "E'2", 'E"2',
+    'E3', "E'3", 'E"3', 'E4', 'E5', 'E6', 'E7',
+    'Eg', "E'g", 'E"g', 'E1g', 'E2g', 'E3g',
+    'Eu', "E'u", 'E"u', 'E1u', 'E2u', 'E3u',
+    'T', 'T1', 'T2',
+    'Tg', 'T1g', 'T2g',
+    'Tu', 'T1u', 'T2u',
+    'G', 'Gg', 'Gu',
+    'H', 'Hg', 'Hu'
 )
 
 integer = pp.Word(pp.nums)
@@ -43,7 +48,8 @@ term_label = pp.Combine(pp.Word(pp.srange('[A-Za-z]')) +
                        ).setResultsName('term_label')
 molecule_term_with_label = (
         pp.Optional(term_label) +
-        pp.Suppress('(') + molecule_term + pp.Suppress(')')
+        pp.Suppress(pp.Optional('(')) + molecule_term +
+        pp.Suppress(pp.Optional(')'))
                            )
 
 class MolecularTermSymbol(State):
