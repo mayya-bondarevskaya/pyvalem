@@ -95,7 +95,7 @@ class MolecularTermSymbolTest(unittest.TestCase):
         self.assertEqual(c3.Smult, 1)
         self.assertEqual(c3.term_label, "A'")
         self.assertEqual(c3.J, 0)
-        self.assertEqual(c3.html, 'A\'(<sup>1</sup>A<sub>1g</sub><sub>0</sub>)')
+        self.assertEqual(c3.html,'A\'(<sup>1</sup>A<sub>1g</sub><sub>0</sub>)')
         
         c4 = MolecularTermSymbol('1E"1')
         self.assertEqual(c4.html,'<sup>1</sup>E"<sub>1</sub>')

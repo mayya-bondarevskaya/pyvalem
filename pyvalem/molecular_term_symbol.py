@@ -70,7 +70,8 @@ class MolecularTermSymbol(State):
     def irrep_html(self, irrep):
         irrep_chunks = []
         if '+' in irrep or '-' in irrep:
-            irrep_chunks.append('{0:s}<sup>{1:s}</sup>'.format(irrep[0],irrep[1]))
+            irrep_chunks.append('{0:s}<sup>{1:s}</sup>'
+                                    .format(irrep[0],irrep[1]))
             next_idx = 2
         elif '"' in irrep or "'" in irrep:
             irrep_chunks.append(irrep[0:2])
@@ -84,11 +85,15 @@ class MolecularTermSymbol(State):
         
     @property
     def html(self):
-        # Mayya TODO
+        """Return an HTML representation of the MolecularTermSymbol."""
+
+        # TODO Handle terms with superscripts and subscripts more gracefully.
+
         html_chunks = []
         if self.term_label is not None:
             html_chunks.append('{:s}('.format(self.term_label))
-        html_chunks.append('<sup>{0:d}</sup>{1:s}'.format(self.Smult,self.irrep_html(self.irrep)))
+        html_chunks.append('<sup>{0:d}</sup>{1:s}'
+                              .format(self.Smult, self.irrep_html(self.irrep)))
         if self.J is not None:
             if self.J.is_integer():
                 Jstr = str(int(self.J))
