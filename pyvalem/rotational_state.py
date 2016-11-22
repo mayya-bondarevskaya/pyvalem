@@ -6,7 +6,7 @@ integer = pp.Word(pp.nums)
 atom_Jstr = (integer+pp.Optional(pp.Suppress('/')+integer) + pp.StringEnd()
             ).setResultsName('Jstr')
 
-class VibrationalState(State):
+class RotationalState(State):
     def parse_state(self, state_str):
 
         self.state_str = state_str
