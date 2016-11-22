@@ -9,7 +9,15 @@ from ..state import StateParseError
 from ..atomic_term_symbol import AtomicTermSymbol
 from ..atomic_configuration import AtomicConfiguration,AtomicConfigurationError
 from ..molecular_term_symbol import MolecularTermSymbol
+from ..vibrational_state import VibrationalState
 import unittest
+
+class VibrationalTermSymbolTest(unittest.TestCase):
+    def test_vibrational_term_symbol(self):
+        e0 = VibrationalState('1/2')
+        self.assertEqual(e0.J,0.5)
+        
+        self.assertRaises(StateParseError, AtomicConfiguration, '1/5')
 
 class AtomicTermSymbolTest(unittest.TestCase):
 
