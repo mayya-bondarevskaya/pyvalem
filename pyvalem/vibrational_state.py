@@ -22,5 +22,5 @@ class VibrationalState(State):
             self.validate_J()
     
     def validate_J(self):
-        if self.J/0.5 != 0:
+        if self.J%0.5 != 0:
             raise StateParseError('Invalid vibrational state value: {}. Must be a multiple of 1/2.'.format(self.state_str))

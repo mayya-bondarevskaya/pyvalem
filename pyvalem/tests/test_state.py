@@ -18,6 +18,7 @@ class VibrationalTermSymbolTest(unittest.TestCase):
         self.assertEqual(e0.J,0.5)
         
         self.assertRaises(StateParseError, VibrationalState, '1/5')
+        #self.assertRaises(StateParseError, VibrationalState, '1\5') NEEDS RESOLVING
 
 class AtomicTermSymbolTest(unittest.TestCase):
 
