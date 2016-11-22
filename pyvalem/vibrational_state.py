@@ -1,9 +1,9 @@
 import pyparsing as pp
 from .state import State, StateParseError
-from utils import parse_fraction
+from .utils import parse_fraction
 
 integer = pp.Word(pp.nums)
-atom_Jstr = (integer+pp.Optional(pp.Suppress('/')+'2')).setResultsName('Jstr')
+atom_Jstr = (integer+pp.Optional(pp.Suppress('/')+integer)).setResultsName('Jstr')
 
 class VibrationalState(State):
     def parse_state(self, state_str):
@@ -23,5 +23,4 @@ class VibrationalState(State):
     
     def validate_J(self):
         if self.J/0.5 != 0:
-            raise StateParseError('Invalid vibrational state value: {}. '
-                                  'Must be a multiple of 1/2.'.format(self.state_str))
+            raise StateParseError('Invalid vibrational state value: {}. Must be a multiple of 1/2.'.format(self.state_str))
