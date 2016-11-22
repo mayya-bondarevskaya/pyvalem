@@ -10,6 +10,7 @@ from ..atomic_term_symbol import AtomicTermSymbol
 from ..atomic_configuration import AtomicConfiguration,AtomicConfigurationError
 from ..molecular_term_symbol import MolecularTermSymbol
 from ..rotational_state import RotationalState
+from ..excited_state import ExcitedState
 import unittest
 
 class RotationalTermSymbolTest(unittest.TestCase):
@@ -19,6 +20,23 @@ class RotationalTermSymbolTest(unittest.TestCase):
         
         self.assertRaises(StateParseError, RotationalState, '1/5')
         self.assertRaises(StateParseError, RotationalState, '1\5')
+
+class ExcitedTermSymbolTest(unittest.TestCase):
+    def test_excited_term_symbol(self):
+        x0 = ExcitedState('*')
+        x1 = ExcitedState('**')
+        x2 = ExcitedState('***')
+        
+        x3 = ExcitedState('3*')
+        self.assertEqual(x3.int_n,3)
+        
+        x4 = ExcitedState('15*')
+        self.assertEqual(x4.int_n,15)
+        
+        self.assertRaises(StateParseError, ExcitedState, 'a')
+        self.assertRaises(StateParseError, ExcitedState, '*3')
+        self.assertRaises(StateParseError, ExcitedState, '3**')
+        self.assertRaises(StateParseError, ExcitedState, '3**?')
 
 class AtomicTermSymbolTest(unittest.TestCase):
 

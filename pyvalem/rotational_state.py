@@ -13,9 +13,8 @@ class RotationalState(State):
         
         try:
             components = atom_Jstr.parseString(state_str)
-            print(components)
         except pp.ParseException:
-            raise StateParseError('Invalid vibrational state value syntax: {0}'
+            raise StateParseError('Invalid rotational state value syntax: {0}'
                                             .format(state_str))
         
         self.J = parse_fraction(components.Jstr)
@@ -25,5 +24,5 @@ class RotationalState(State):
     
     def validate_J(self):
         if self.J%0.5 != 0:
-            raise StateParseError('Invalid vibrational state value: {}.'
+            raise StateParseError('Invalid rotational state value: {}.'
                     'Must be a multiple of 1/2.'.format(self.state_str))
