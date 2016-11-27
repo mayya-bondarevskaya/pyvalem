@@ -31,8 +31,12 @@ class VibrationalState(State):
             self.second_vLevel = components.secondVLevel
             if components.firstVLevelInt is not None:
                 self.first_vLevel_int = int(components.firstVLevelInt)
+            else:
+                self.first_vLevel_int = 1
             if components.secondVLevelInt is not None:
                 self.second_vLevel_int = int(components.secondVLevelInt)
+            else:
+                self.second_vLevel_int = 1
                 
         else:
             try:
