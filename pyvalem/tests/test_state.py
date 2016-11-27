@@ -34,7 +34,7 @@ class VobrationalTermSymbolTest(unittest.TestCase):
         self.assertEqual(v3.second_vLevel, 'v2')
         self.assertEqual(v3.second_vLevel_int, 1)
         
-        v4 = VibrationalState('2v1+3v4')
+        v4 = VibrationalState('2v1 + 3v4')
         self.assertEqual(v4.first_vLevel,'v1')
         self.assertEqual(v4.first_vLevel_int, 2)
         self.assertEqual(v4.second_vLevel, 'v4')

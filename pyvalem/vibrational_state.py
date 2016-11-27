@@ -18,7 +18,7 @@ atom_term_exc = (atom_exc+pp.StringEnd())
 
 class VibrationalState(State):
     def parse_state(self,state_str):
-        self.state_str = state_str
+        self.state_str = state_str.replace(' ','')
         
         if '+' in state_str:
             try:
