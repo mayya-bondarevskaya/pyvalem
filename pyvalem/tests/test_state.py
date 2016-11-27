@@ -14,10 +14,10 @@ from ..excited_state import ExcitedState
 from ..vibrational_state import VibrationalState
 import unittest
 
-class VobrationalTermSymbolTest(unittest.TestCase):
+class VibrationalTermSymbolTest(unittest.TestCase):
     def test_vibrational_term_symbol(self):
         v0 = VibrationalState('1')
-        self.asserEqual(v0.exc_level,1)
+        self.assertEqual(v0.exc_level,1)
         
         v1 = VibrationalState('5')
         self.assertEqual(v1.exc_level,5)
