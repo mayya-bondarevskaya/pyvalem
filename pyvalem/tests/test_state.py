@@ -11,7 +11,11 @@ from ..atomic_configuration import AtomicConfiguration,AtomicConfigurationError
 from ..molecular_term_symbol import MolecularTermSymbol
 from ..rotational_state import RotationalState
 from ..excited_state import ExcitedState
+from ..vibrational_state import VibrationalState
 import unittest
+
+class VobrationalTermSymbolTest(unittest.TestCase):
+    
 
 class RotationalTermSymbolTest(unittest.TestCase):
     def test_rotational_term_symbol(self):
