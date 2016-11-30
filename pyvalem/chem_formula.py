@@ -211,6 +211,12 @@ class ChemFormula(object):
             self.natoms = None
             return
 
+        if formula == 'hv':
+            self.slug = self.html = 'hv'
+            self.latex = r'$h\nu$'
+            self.charge = 0
+            self.rmm = self.natoms = None 
+
         try:
             moieties = complexChemicalFormula.parseString(formula)
         except pp.ParseException:
