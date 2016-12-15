@@ -7,7 +7,7 @@ from ..rotational_state import RotationalState
 from ..vibrational_state import VibrationalState
 from ..state import State, StateParseError
 
-with codecs.open("pyvalem/tests/qdb_states.txt",encoding='utf-8') as qdb:
+with codecs.open("pyvalem/tests/qdb_states.txt", encoding='utf-8') as qdb:
     examples = qdb.readlines()
 
 final_data = []
