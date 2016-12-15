@@ -12,6 +12,7 @@ with codecs.open("pyvalem/tests/qdb_states.txt",encoding='utf-8') as qdb:
 
 final_data = []
 exception_data = []
+no_classes_yet_data = []
 for item in examples:
     final_data.append(item.split())
 
@@ -36,4 +37,6 @@ for item in final_data:
             temp = class_choice(item[2])
         except Exception as inst:
             exception_data.append(item)
+    else:
+        no_classes_yet_data.append(item)
 print(exception_data)
