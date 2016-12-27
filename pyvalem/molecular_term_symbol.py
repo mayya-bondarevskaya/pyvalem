@@ -14,10 +14,15 @@ from .utils import parse_fraction
 
 orbital_irrep_labels = (
     'Σ-', 'Σ-u', 'Σ-g',
+    'SIGMA-', 'SIGMA-u', 'SIGMA-g',
     'Σ+', 'Σ+u', 'Σ+g', 
+    'SIGMA+', 'SIGMA+u', 'SIGMA+g',
     'Π', 'Πu', 'Πg', 
+    'PI', 'PIu', 'PIg',
     'Δ','Δu','Δg',
+    'DELTA', 'DELTAu', 'DELTAg',
     'Φ', 'Φg', 'Φu',
+    'PHI', 'PHIg', 'PHIu',
     'A', "A'", 'A"', 'A1', "A'1", 'A"1', 'A2', "A'2", 'A"2', 'A3',
     'Ag', "A'g", 'A"g', 'A1g', 'A2g', 'A3g',
     'Au', "A'u", 'A"u', 'A1u', 'A2u', 'A3u',
