@@ -40,6 +40,10 @@ orbital_irrep_labels = (
     'H', 'Hg', 'Hu'
 )
 
+greek_letters = {'SIGMA': 'Σ',
+                 'PI': 'Π',
+                 'DELTA': 'Δ',
+                 'PHI': 'Φ'}
 
 integer = pp.Word(pp.nums)
 molecule_Smult = integer.setResultsName('Smult')
@@ -68,7 +72,13 @@ class MolecularTermSymbol(State):
             raise StateParseError('Invalid molecular term symbol syntax: {0}'
                                             .format(state_str))
         self.Smult = int(components.Smult)
-        self.irrep = components.irrep
+        irrep = components.irrep
+        if (irrep in greek_letters.keys()):
+            irrep = greek_letters[irrep]
+        elif (irrep[0:-1] in greek_letters.keys()):
+            irrep = greek_letters[irrep[0:-1]] + irrep[-1]
+            
+        self.irrep = irrep
         self.term_label = components.term_label or None
         self.J = parse_fraction(components.Jstr)
 
