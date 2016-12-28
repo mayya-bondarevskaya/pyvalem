@@ -40,10 +40,21 @@ orbital_irrep_labels = (
     'H', 'Hg', 'Hu'
 )
 
-greek_letters = {'SIGMA': 'Σ',
+greek_letters = {'SIGMA-': 'Σ-',
+                 'SIGMA-u': 'Σ-u',
+                 'SIGMA-g': 'Σ-g',
+                 'SIGMA+': 'Σ+',
+                 'SIGMA+u': 'Σ+u',
+                 'SIGMA+g': 'Σ+g',
                  'PI': 'Π',
+                 'PIu': 'Πu',
+                 'PIg': 'Πg',
                  'DELTA': 'Δ',
-                 'PHI': 'Φ'}
+                 'DELTAu': 'Δu',
+                 'DELTAg': 'Δg',
+                 'PHI': 'Φ',
+                 'PHIg': 'Φg',
+                 'PHIu': 'Φu'}
 
 integer = pp.Word(pp.nums)
 molecule_Smult = integer.setResultsName('Smult')
@@ -75,8 +86,6 @@ class MolecularTermSymbol(State):
         irrep = components.irrep
         if (irrep in greek_letters.keys()):
             irrep = greek_letters[irrep]
-        elif (irrep[0:-1] in greek_letters.keys()):
-            irrep = greek_letters[irrep[0:-1]] + irrep[-1]
             
         self.irrep = irrep
         self.term_label = components.term_label or None
