@@ -14,6 +14,7 @@ final_data = []
 exception_data = []
 no_classes_yet_data = []
 for item in examples:
+    # each entry is pk (ID), state_typeID, state_str
     final_data.append(item.split())
 
 STATE_TYPE_CHOICES = ['ARBITRARY_KEY_VALUE_PAIRS',
@@ -39,4 +40,6 @@ for item in final_data:
             exception_data.append(item)
     else:
         no_classes_yet_data.append(item)
-print(exception_data)
+
+for item in exception_data:
+    print(' '.join(item))
