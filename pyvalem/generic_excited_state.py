@@ -3,9 +3,9 @@ from .state import State, StateParseError
 
 integer = pp.Word(pp.nums)
 atom_int = integer.setResultsName('int')
-state_term = (atom_int + '*' + pp.StringEnd())
+state_term = ((atom_int + '*' + pp.StringEnd())).leaveWhitespace()
 
-class ExcitedState(State):
+class GenericExcitedState(State):
     def parse_state(self,state_str):
         self.state_str = state_str
         
@@ -19,8 +19,10 @@ class ExcitedState(State):
                     components = state_term.parseString(state_str)
                     self.int_n = int(components.int)
                 except pp.ParseException:
-                    raise StateParseError('Invalid excited state value syntax: {0}'
-                        ' Has to be of form n* with n = integer'.format(state_str))
+                    raise StateParseError(
+                'Invalid excited state value syntax: {0} has to be of form'
+                ' n* with n = integer'.format(state_str)
+                                         )
         else:
             raise StateParseError('Invalid excited state value syntax: {0}'
                                   ' Must have a * term.'.format(state_str))

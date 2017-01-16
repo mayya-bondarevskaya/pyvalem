@@ -44,7 +44,7 @@ class ChemFormulaTest(unittest.TestCase):
     def test_good_formulas(self):
         for formula in good_formulas:
             cf = ChemFormula(formula)
-            print(formula)
+            #print(formula)
             self.assertEqual(cf.stoichiometric_formula(),
                              good_formulas[formula]['stoichiometric_formula'])
             self.assertEqual(cf.html, good_formulas[formula]['html'])
@@ -63,6 +63,25 @@ class ChemFormulaTest(unittest.TestCase):
         self.assertIsNone(cf.rmm)
         self.assertIsNone(cf.natoms)
         self.assertIsNone(cf.charge)
+
+    def test_e(self):
+        cf = ChemFormula('e-')
+        self.assertEqual(cf.stoichiometric_formula(), 'e-')
+        self.assertEqual(cf.html, 'e<sup>-</sup>')
+        self.assertEqual(cf.slug, 'e_m')
+        self.assertEqual(cf.rmm, 5.48579909e-04)
+        self.assertIsNone(cf.natoms)
+        self.assertEqual(cf.charge, -1)
+        
+    def test_photon(self):
+        for cf in (ChemFormula('hν'), ChemFormula('hv')):
+            self.assertEqual(cf.stoichiometric_formula(), 'hν')
+            self.assertEqual(cf.slug, 'hv')
+            self.assertEqual(cf.html, 'hν')
+            self.assertIsNone(cf.rmm)
+            self.assertIsNone(cf.natoms)
+            self.assertEqual(cf.charge, 0)
+        
 
 if __name__ == '__main__':
     unittest.main()

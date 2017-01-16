@@ -1,4 +1,5 @@
-from ..molecular_term_symbol import (MolecularTermSymbol,
+import os
+from pyvalem.molecular_term_symbol import (MolecularTermSymbol,
                                            orbital_irrep_labels)
 
 def html_out():
@@ -8,6 +9,10 @@ def html_out():
         message_chunks.append('<p>{:s}</p>'.format(temp_symbol.html))
     message_chunks.append('</body>')
     message_chunks.append('</html>')
-    print('\n'.join(message_chunks))
+    return '\n'.join(message_chunks)
 
-html_out()
+filename = os.path.join(os.path.dirname(__file__), 'molec_term_symbols.html')
+with open(filename , 'w') as fo:
+    print(html_out(), file=fo)
+
+

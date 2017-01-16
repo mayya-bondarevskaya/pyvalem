@@ -14,10 +14,15 @@ from .utils import parse_fraction
 
 orbital_irrep_labels = (
     'Σ-', 'Σ-u', 'Σ-g',
+    'SIGMA-', 'SIGMA-u', 'SIGMA-g',
     'Σ+', 'Σ+u', 'Σ+g', 
+    'SIGMA+', 'SIGMA+u', 'SIGMA+g',
     'Π', 'Πu', 'Πg', 
+    'PI', 'PIu', 'PIg',
     'Δ','Δu','Δg',
+    'DELTA', 'DELTAu', 'DELTAg',
     'Φ', 'Φg', 'Φu',
+    'PHI', 'PHIg', 'PHIu',
     'A', "A'", 'A"', 'A1', "A'1", 'A"1', 'A2', "A'2", 'A"2', 'A3',
     'Ag', "A'g", 'A"g', 'A1g', 'A2g', 'A3g',
     'Au', "A'u", 'A"u', 'A1u', 'A2u', 'A3u',
@@ -35,6 +40,21 @@ orbital_irrep_labels = (
     'H', 'Hg', 'Hu'
 )
 
+greek_letters = {'SIGMA-': 'Σ-',
+                 'SIGMA-u': 'Σ-u',
+                 'SIGMA-g': 'Σ-g',
+                 'SIGMA+': 'Σ+',
+                 'SIGMA+u': 'Σ+u',
+                 'SIGMA+g': 'Σ+g',
+                 'PI': 'Π',
+                 'PIu': 'Πu',
+                 'PIg': 'Πg',
+                 'DELTA': 'Δ',
+                 'DELTAu': 'Δu',
+                 'DELTAg': 'Δg',
+                 'PHI': 'Φ',
+                 'PHIg': 'Φg',
+                 'PHIu': 'Φu'}
 
 integer = pp.Word(pp.nums)
 molecule_Smult = integer.setResultsName('Smult')
@@ -63,7 +83,11 @@ class MolecularTermSymbol(State):
             raise StateParseError('Invalid molecular term symbol syntax: {0}'
                                             .format(state_str))
         self.Smult = int(components.Smult)
-        self.irrep = components.irrep
+        irrep = components.irrep
+        if (irrep in greek_letters.keys()):
+            irrep = greek_letters[irrep]
+            
+        self.irrep = irrep
         self.term_label = components.term_label or None
         self.J = parse_fraction(components.Jstr)
 
