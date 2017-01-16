@@ -211,11 +211,13 @@ class ChemFormula(object):
             self.natoms = None
             return
 
-        if formula == 'hv':
-            self.slug = self.html = 'hv'
+        if formula in ('hν', 'hv'):
+            self.slug = 'hv'
+            self.html = 'hν'
             self.latex = r'$h\nu$'
             self.charge = 0
             self.rmm = self.natoms = None 
+            return
 
         try:
             moieties = complexChemicalFormula.parseString(formula)
@@ -377,6 +379,12 @@ class ChemFormula(object):
         if self.formula == 'M':
             # Special case for generic "third-body"
             return 'M'
+        if self.formula == 'e-':
+            # Special case for the electron
+            return 'e-'
+        if self.formula in ('hv', 'hν'):
+            # Special case for the photon
+            return 'hν'
 
         fmt = fmt.lower()
         if fmt not in ('atomic number', 'hill', 'alphabetical'):
