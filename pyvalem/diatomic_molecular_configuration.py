@@ -35,6 +35,7 @@ class MolecularOrbital:
         else:
             self.symbol = symbol
         self.count = int(count)
+        self.validate_molecular_orbital()
         
     def __str__(self):
         return '{:d}{:s}{:d}'.format(self.n, self.symbol, self.count)
@@ -47,10 +48,15 @@ class MolecularOrbital:
                 self.count == other.count)
     
     def validate_molecular_orbital(self):
-        # TODO check that number of electrons is:
-        # 1 or 2 for sigma orbitals
-        # 1,2,3,4 for pi orbitals
-        # 1,2,3,4 for delta orbitals
+        if self.symbol == 'σ':
+            if self.count > 2:
+                raise DiatomicMolecularConfigurationError('Only two electrons'
+                 ' allowed in σ orbital, but received {:d}'.format(self.count))
+        else:
+            if self.count > 4:
+                raise DiatomicMolecularConfigurationError('Only four electrons'
+                                       ' allowed in π and δ orbitals, '
+                                       'but received {:d}'.format(self.count))
         pass
 
 class DiatomicMolecularConfiguration(State):
