@@ -1,20 +1,24 @@
 import pyparsing as pp
 from .state import State, StateParseError
 
-atom_vLevels = ('v1','v2','v3','v4','v5','v6','v7','v8','v9')
-
 integer = pp.Word(pp.nums)
-atom_first_vLevel = pp.oneOf(atom_vLevels).setResultsName('firstVLevel')
-atom_first_vLevel_int = integer.setResultsName('firstVLevelInt')
-atom_second_vLevel = pp.oneOf(atom_vLevels).setResultsName('secondVLevel')
-atom_second_vLevel_int = integer.setResultsName('secondVLevelInt')
 
-atom_term = (pp.Optional(atom_first_vLevel_int)+atom_first_vLevel+'+'+
-             pp.Optional(atom_second_vLevel_int)+atom_second_vLevel+
-             pp.stringEnd())
+vibrational_term = pp.Group(pp.Optional(integer.setResultsName('n'),default=1)+
+                            'v' + integer.setResultsName('count'))
+vibrational_config = (vibrational_term + 
+                      pp.ZeroOrMore(pp.Suppress('+') + vibrational_term) +
+                      pp.StringEnd()).leaveWhitespace()
 
-atom_exc = integer.setResultsName('excLevel')
-atom_term_exc = (atom_exc+pp.StringEnd())
+simple_config = (integer.setResultsName('n')+pp.StringEnd()).leaveWhitespace()
+
+class VibrationalTerm:
+    def __init__(self, n, count):
+        self.n = int(n)
+        self.count = int(count)
+    
+    def __str__(self):
+        return '{:d}v{:d}'.format(self.n,self.count)
+    __repr__=__str__
 
 class VibrationalState(State):
     def parse_state(self,state_str):
@@ -22,26 +26,18 @@ class VibrationalState(State):
         
         if '+' in state_str:
             try:
-                components = atom_term.parseString(state_str)
+                parse_results = vibrational_config.parseString(self.state_str)
             except pp.ParseException:
-                raise StateParseError('Invalid atomic term symbol syntax: {0}'
-                                            .format(state_str))
-                
-            self.first_vLevel = components.firstVLevel
-            self.second_vLevel = components.secondVLevel
-            if components.firstVLevelInt is not '':
-                self.first_vLevel_int = int(components.firstVLevelInt)
-            else:
-                self.first_vLevel_int = 1
-            if components.secondVLevelInt is not '':
-                self.second_vLevel_int = int(components.secondVLevelInt)
-            else:
-                self.second_vLevel_int = 1
-                
+                raise StateParseError('Invalid vibrational state configuration'
+                                      ' syntax: {0}'.format(self.state_str))
+            self.terms = []
+            for i, parsed_term in enumerate(parse_results):
+                temp_term = VibrationalTerm(n = parsed_term['n'],
+                                            count = parsed_term['count'])
+                self.terms.append(temp_term)
         else:
             try:
-                components = atom_term_exc.parseString(state_str)
+                parse_results = simple_config.parseString(self.state_str)
             except pp.ParseException:
-                raise StateParseError('Invalid atomic term symbol syntax: {0}'
-                                            .format(state_str))
-            self.exc_level = int(components.excLevel)
+                raise StateParseError('Invalid vibrational state configuration'
+                                      ' syntax: {0}'.format(self.state_str))
