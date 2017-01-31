@@ -77,16 +77,14 @@ class DiatomicMolecularConfiguration(State):
             self.orbitals.append(temp_orbital)
         
         if len(self.orbitals) != len(set(self.orbitals)):
-            raise DiatomicMolecularConfigurationError('Repeated orbitals in {0}'.format(self.state_str))
+            raise DiatomicMolecularConfigurationError('Repeated orbitals '
+                                            'in {0}'.format(self.state_str))
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+    @property
+    def html(self):
+        html_chunks = []
+        if self.orbitals:
+            for orbital in self.orbitals:
+                html_chunks.append('{:d}{:s}<sub>{:d}<\sub>'.format(orbital.n,
+                                                orbital.symbol,orbital.count))
+        return '.'.join(html_chunks)

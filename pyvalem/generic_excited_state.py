@@ -26,3 +26,12 @@ class GenericExcitedState(State):
         else:
             raise StateParseError('Invalid excited state value syntax: {0}'
                                   ' Must have a * term.'.format(state_str))
+
+    @property
+    def html(self):
+        html_chunks = []
+        if '*' in self.state_str:
+            html_chunks.append(self.state_str)
+        else:
+            html_chunks.append('{:d}<sup>*<\sup>'.format(self.int_n))
+        return ''.join(html_chunks)

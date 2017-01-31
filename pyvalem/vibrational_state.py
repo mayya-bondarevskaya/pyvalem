@@ -41,3 +41,14 @@ class VibrationalState(State):
             except pp.ParseException:
                 raise StateParseError('Invalid vibrational state configuration'
                                       ' syntax: {0}'.format(self.state_str))
+    
+    @property
+    def html(self):
+        html_chunks = []
+        if '+' in self.state_str:
+            for term in self.terms:
+                html_chunks.append('{:d}v<sub>{:d}<\sub>'.format(term.n,
+                                                                 term.count))
+        else:
+            html_chunks.append(self.state_str)
+        return ' + '.join(html_chunks)
