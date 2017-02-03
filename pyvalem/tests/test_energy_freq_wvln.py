@@ -41,6 +41,17 @@ class EnergyFreqWvlnTest(unittest.TestCase):
         self.assertTrue(abs(w1_energy.value-1.1603640772125929e+20) < 0.01)
         self.assertTrue(abs(w1_freq.value-1.7512103846450052e+53) < 0.01)
         self.assertTrue(abs(w1_wvln.value-2.305e-05) < 0.01)
+        
+    def test_html(self):
+        e1 = EnergyFreqWvln('25e13 s-1')
+        e2 = EnergyFreqWvln('23.05e-6 m')
+        e3 = EnergyFreqWvln('2.0e25 eV')
+        e4 = EnergyFreqWvln('200 J')
+        
+        self.assertEqual(e1.html, '25e13 s-1')
+        self.assertEqual(e2.html, '23.05e-6 m')
+        self.assertEqual(e3.html, '2.0e25 eV')
+        self.assertEqual(e4.html, '200 J')
     
 if __name__ == '__main__':
     unittest.main()
