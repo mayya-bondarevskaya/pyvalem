@@ -41,6 +41,16 @@ class AtomicConfigurationTest(unittest.TestCase):
                                                     '1s2.2s2.2p7')
         self.assertRaises(AtomicConfigurationError, AtomicConfiguration,
                                                     '1s2.2s2.2d2')
+
+    def test_atomic_configuration_html(self):
+        c0 = AtomicConfiguration('1s2')
+        c1 = AtomicConfiguration('1s2.2s2')
+        c2 = AtomicConfiguration('[Ar].4s2.3d10.4p5')
+
+        self.assertEqual(c0.html, '1s<sup>2</sup>')
+        self.assertEqual(c1.html, '1s<sup>2</sup>.2s<sup>2</sup>')
+        self.assertEqual(c2.html,
+                    '[Ar].4s<sup>2</sup>.3d<sup>10</sup>.4p<sup>5</sup>')
  
 
 if __name__ == '__main__':
