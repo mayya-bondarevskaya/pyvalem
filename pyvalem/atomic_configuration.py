@@ -106,7 +106,7 @@ class AtomicConfiguration(State):
             html_chunks.append(self.noble_gas_config)
         for orbital in self.orbitals:
             html_chunks.append(orbital.html)
-        return '.'.join(html_chunks)
+        return ''.join(html_chunks)
 
     def expand_noble_gas_config(self, config):
         """Recursively expand out the noble gas notation to orbitals.

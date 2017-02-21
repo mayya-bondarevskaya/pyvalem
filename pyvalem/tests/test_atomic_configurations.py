@@ -48,9 +48,9 @@ class AtomicConfigurationTest(unittest.TestCase):
         c2 = AtomicConfiguration('[Ar].4s2.3d10.4p5')
 
         self.assertEqual(c0.html, '1s<sup>2</sup>')
-        self.assertEqual(c1.html, '1s<sup>2</sup>.2s<sup>2</sup>')
+        self.assertEqual(c1.html, '1s<sup>2</sup>2s<sup>2</sup>')
         self.assertEqual(c2.html,
-                    '[Ar].4s<sup>2</sup>.3d<sup>10</sup>.4p<sup>5</sup>')
+                    '[Ar]4s<sup>2</sup>3d<sup>10</sup>4p<sup>5</sup>')
  
 
 if __name__ == '__main__':
