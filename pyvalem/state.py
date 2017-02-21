@@ -30,8 +30,16 @@ class StateParseError(Exception):
     def __str__(self):
         return repr(self.msg)
 
-class State(object):
+class State:
     def __init__(self, state_str):
         self.state_str = state_str
         self.parse_state(state_str)
+
+    def __str__(self):
+        return self.state_str
+    __repr__ = __str__
+
+    @property
+    def html(self):
+        return str(self)
 

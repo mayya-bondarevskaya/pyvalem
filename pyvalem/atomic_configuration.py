@@ -1,6 +1,5 @@
-# -*- coding: cp1252 -*-
 # The AtomicConfiguration class, representing an atomic electronic
-#Â configuration with methods for parsing a string into quantum numbers and
+# configuration with methods for parsing a string into quantum numbers and
 # labels, creating an HTML representation of the term symbol, etc.
 #
 # Copyright (C) 2012-2016 Christian Hill
