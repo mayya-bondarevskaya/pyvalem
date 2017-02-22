@@ -33,6 +33,7 @@ class AtomicTermSymbolTest(unittest.TestCase):
         self.assertEqual(a2.L, 1)
 
         self.assertRaises(StateParseError, AtomicTermSymbol, '1P_0')
+        self.assertRaises(StateParseError, AtomicTermSymbol, '1PZ')
 
 
 if __name__ == '__main__':

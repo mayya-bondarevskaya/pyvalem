@@ -8,7 +8,6 @@
 #
 # This file is part of PyValem
 
-import pyparsing as pp
 from .state import State, StateParseError
 
 class KeyValuePair(State):

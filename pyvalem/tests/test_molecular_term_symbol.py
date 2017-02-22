@@ -20,6 +20,7 @@ class MolecularTermSymbolTest(unittest.TestCase):
         self.assertEqual(m3.html, 'A(<sup>1</sup>A")')
 
         self.assertRaises(StateParseError, MolecularTermSymbol, 'A(A")')
+        self.assertRaises(StateParseError, MolecularTermSymbol, '3B_2A')
 
     
 if __name__ == '__main__':

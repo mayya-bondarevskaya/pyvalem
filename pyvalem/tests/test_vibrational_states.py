@@ -40,6 +40,8 @@ class VibrationalStateTest(unittest.TestCase):
         self.assertRaises(StateParseError, VibrationalState, 'abc')
         self.assertRaises(StateParseError, VibrationalState, 'v+v2')
         self.assertRaises(StateParseError, VibrationalState, '1v1+')
+        self.assertRaises(StateParseError, VibrationalState, 'v=0x')
+        self.assertRaises(StateParseError, VibrationalState, '2ν1+3ν4x')
 
     def test_generic_excited_vibrational_state(self):
         v1 = VibrationalState('v=*')
@@ -52,6 +54,7 @@ class VibrationalStateTest(unittest.TestCase):
         self.assertEqual(v2.html, 'v=**')
 
         self.assertRaises(StateParseError, VibrationalState, 'v=****')
+        self.assertRaises(StateParseError, VibrationalState, 'v=***x')
        
 
 if __name__ == '__main__':

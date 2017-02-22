@@ -70,7 +70,7 @@ term_label = pp.Combine(pp.Word(pp.srange('[A-Za-z]')) +
 molecule_term_with_label = (
         pp.Optional(term_label) +
         pp.Suppress(pp.Optional('(')) + molecule_term +
-        pp.Suppress(pp.Optional(')'))
+        pp.Suppress(pp.Optional(')')) + pp.StringEnd()
                            )
 
 class MolecularTermSymbol(State):
