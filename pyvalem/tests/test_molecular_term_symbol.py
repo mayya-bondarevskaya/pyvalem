@@ -15,6 +15,12 @@ class MolecularTermSymbolTest(unittest.TestCase):
         self.assertEqual(str(m2), '3Σ+u')
         self.assertEqual(m2.html, '<sup>3</sup>Σ<sup>+</sup><sub>u</sub>')
 
+        m3 = MolecularTermSymbol('A(1A")')
+        self.assertEqual(str(m3), 'A(1A")')
+        self.assertEqual(m3.html, 'A(<sup>1</sup>A")')
+
+        self.assertRaises(StateParseError, MolecularTermSymbol, 'A(A")')
+
     
 if __name__ == '__main__':
     unittest.main()
