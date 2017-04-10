@@ -215,6 +215,7 @@ class ChemFormula(object):
             self.slug = 'hv'
             self.html = 'hν'
             self.latex = r'$h\nu$'
+            self.atom_stoich = {}
             self.charge = 0
             self.rmm = self.natoms = None 
             return

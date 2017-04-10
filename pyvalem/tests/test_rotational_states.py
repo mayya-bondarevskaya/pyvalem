@@ -32,7 +32,7 @@ class RotationalTermSymbolTest(unittest.TestCase):
         self.assertRaises(StateParseError, RotationalState, '1/5x')
         self.assertRaises(StateParseError, RotationalState, '1\5')
 
-    def test_generic_excited_vibrational_state(self):
+    def test_generic_excited_rotational_state(self):
         J1 = RotationalState('J=*')
         self.assertEqual(str(J1), 'J=*')
         self.assertEqual(J1.html, 'J=*')
