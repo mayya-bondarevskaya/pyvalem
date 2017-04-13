@@ -40,6 +40,7 @@ class ChemFormulaTest(unittest.TestCase):
         self.assertEqual(cf.html, 'H<sub>2</sub>NC(CH<sub>3</sub>)'
                                   '<sub>2</sub>CO<sub>2</sub>H')
         self.assertEqual(cf.slug, 'H2NC_d__CH3_d__2CO2H')
+        self.assertEqual(cf.atoms, {'H', 'C', 'N', 'O'})
 
     def test_good_formulas(self):
         for formula in good_formulas:
@@ -63,6 +64,7 @@ class ChemFormulaTest(unittest.TestCase):
         self.assertIsNone(cf.rmm)
         self.assertIsNone(cf.natoms)
         self.assertIsNone(cf.charge)
+        self.assertEqual(cf.atoms, {'M'})
 
     def test_e(self):
         cf = ChemFormula('e-')

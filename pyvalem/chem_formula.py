@@ -191,6 +191,7 @@ class ChemFormula(object):
 
     def parse_formula(self, formula):
 
+        self.atoms = set()
         # We make a particular exception for "M", denoting an unspecified
         # "third-body" in many reactions. M does not have a defined charge or
         # mass.
@@ -198,6 +199,7 @@ class ChemFormula(object):
             self.slug = self.html = self.latex = 'M'
             self.atom_stoich = {}
             self.rmm = self.charge = self.natoms = None
+            self.atoms = {'M'}
             return
         
         # Also make an exception for "e-", denoting an electron.
@@ -287,6 +289,8 @@ class ChemFormula(object):
                 except KeyError:
                     raise ChemFormulaParseError('Unknown element symbol'
                                ' %s in formula %s' % (atom_symbol, formula))
+
+                self.atoms.add(atom_symbol)
 
                 atom_stoich = int(atom_stoich)
                 total_atom_stoich = atom_stoich * stoich
