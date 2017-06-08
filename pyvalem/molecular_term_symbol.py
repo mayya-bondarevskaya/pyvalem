@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 # The MolecularTermSymbol class, representing a molecular term symbol, with
 # methods for parsing a string into quantum numbers and labels, creating
 # an HTML representation of the term symbol, etc.

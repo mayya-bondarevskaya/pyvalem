@@ -1,7 +1,10 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import codecs
 from ..atomic_configuration import AtomicConfiguration
 from ..atomic_term_symbol import AtomicTermSymbol
-from ..excited_state import ExcitedState
+from ..generic_excited_state import GenericExcitedState
 from ..molecular_term_symbol import MolecularTermSymbol
 from ..rotational_state import RotationalState
 from ..vibrational_state import VibrationalState
@@ -18,7 +21,7 @@ for item in examples:
     final_data.append(item.split())
 
 STATE_TYPE_CHOICES = ['ARBITRARY_KEY_VALUE_PAIRS',
-                      ExcitedState,
+                      GenericExcitedState,
                       AtomicConfiguration,
                       AtomicTermSymbol,
                       'MOLECULE_CONFIGURATION',
