@@ -7,6 +7,7 @@ from ..atomic_term_symbol import AtomicTermSymbol
 from ..generic_excited_state import GenericExcitedState
 from ..key_value_pair import KeyValuePair
 from ..molecular_term_symbol import MolecularTermSymbol
+from ..racah_symbol import RacahSymbol
 from ..rotational_state import RotationalState
 from ..vibrational_state import VibrationalState
 from ..state import State, StateParseError
@@ -32,7 +33,7 @@ STATE_TYPE_CHOICES = [KeyValuePair, 			#0
                       'NUCLEAR_SPIN_STATE',		#8
                       'ENERGY_FREQ_WVLN',		#9
                       RotationalState,			#10
-                      'RACAH_SYMBOL'			#11
+                      RacahSymbol				#11
                       ]
 
 for item in final_data:
