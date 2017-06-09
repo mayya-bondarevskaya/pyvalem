@@ -5,6 +5,7 @@ import codecs
 from ..atomic_configuration import AtomicConfiguration
 from ..atomic_term_symbol import AtomicTermSymbol
 from ..generic_excited_state import GenericExcitedState
+from ..key_value_pair import KeyValuePair
 from ..molecular_term_symbol import MolecularTermSymbol
 from ..rotational_state import RotationalState
 from ..vibrational_state import VibrationalState
@@ -20,18 +21,18 @@ for item in examples:
     # each entry is pk (ID), state_typeID, state_str
     final_data.append(item.split())
 
-STATE_TYPE_CHOICES = ['ARBITRARY_KEY_VALUE_PAIRS',
-                      GenericExcitedState,
-                      AtomicConfiguration,
-                      AtomicTermSymbol,
-                      'MOLECULE_CONFIGURATION',
-                      MolecularTermSymbol,
-                      VibrationalState,
-                      'POLYATOMIC_VIBRATIONAL',
-                      'NUCLEAR_SPIN_STATE',
-                      'ENERGY_FREQ_WVLN',
-                      RotationalState,
-                      'RACAH_SYMBOL'
+STATE_TYPE_CHOICES = [KeyValuePair, 			#0
+                      GenericExcitedState,		#1
+                      AtomicConfiguration,		#2
+                      AtomicTermSymbol,			#3
+                      'MOLECULE_CONFIGURATION',	#4
+                      MolecularTermSymbol,		#5
+                      VibrationalState,			#6
+                      VibrationalState,			#7
+                      'NUCLEAR_SPIN_STATE',		#8
+                      'ENERGY_FREQ_WVLN',		#9
+                      RotationalState,			#10
+                      'RACAH_SYMBOL'			#11
                       ]
 
 for item in final_data:
@@ -40,10 +41,9 @@ for item in final_data:
         try:
             temp = class_choice(item[2].encode('utf-8'))
         except Exception as inst:
-            print(inst)
             exception_data.append(item)
     else:
         no_classes_yet_data.append(item)
 
-for item in exception_data:
+for item in no_classes_yet_data:
     print(' '.join(item))
