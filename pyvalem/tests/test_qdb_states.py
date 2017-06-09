@@ -38,8 +38,9 @@ for item in final_data:
     class_choice = STATE_TYPE_CHOICES[int(item[1])]
     if type(class_choice) != str:
         try:
-            temp = class_choice(item[2])
+            temp = class_choice(item[2].encode('utf-8'))
         except Exception as inst:
+            print(inst)
             exception_data.append(item)
     else:
         no_classes_yet_data.append(item)
