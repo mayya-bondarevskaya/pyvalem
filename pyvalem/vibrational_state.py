@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import pyparsing as pp
 from .state import State, StateParseError
 
