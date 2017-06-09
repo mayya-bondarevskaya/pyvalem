@@ -73,12 +73,11 @@ term_label = pp.Combine(pp.Word(pp.srange('[A-Za-z]')) +
 molecule_term_with_label = (
         pp.Optional(term_label) +
         pp.Suppress(pp.Optional('(')) + molecule_term +
-        pp.Suppress(pp.Optional(')'))
+        pp.Suppress(pp.Optional(')')) + pp.StringEnd()
                            )
 
 class MolecularTermSymbol(State):
     def parse_state(self, state_str):
-        self.state_str = state_str
 
         try:
             components = molecule_term_with_label.parseString(state_str)
@@ -87,7 +86,8 @@ class MolecularTermSymbol(State):
                                             .format(state_str))
         self.Smult = int(components.Smult)
         irrep = components.irrep
-        if (irrep in greek_letters.keys()):
+        if irrep in greek_letters.keys():
+            self.state_str = self.state_str.replace(irrep,greek_letters[irrep])
             irrep = greek_letters[irrep]
             
         self.irrep = irrep

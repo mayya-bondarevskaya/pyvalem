@@ -1,6 +1,5 @@
-# -*- coding: cp1252 -*-
 # The AtomicConfiguration class, representing an atomic electronic
-#Â configuration with methods for parsing a string into quantum numbers and
+# configuration with methods for parsing a string into quantum numbers and
 # labels, creating an HTML representation of the term symbol, etc.
 #
 # Copyright (C) 2012-2016 Christian Hill
@@ -54,6 +53,9 @@ class AtomicOrbital:
     def __str__(self):
         return '{}{}{}'.format(self.n, self.lletter, self.nocc)
 
+    @property
+    def html(self):
+        return '{}{}<sup>{}</sup>'.format(self.n, self.lletter, self.nocc)
 
     def validate_atomic_orbital(self):
         if self.l > self.n - 1:
@@ -80,9 +82,11 @@ class AtomicConfiguration(State):
         subshells = [subshell[:2] for subshell in subshells.split('.')]
 
         self.orbitals = []
+        self.noble_gas_config = None
         for i, parsed_orbital in enumerate(parse_results):
             if not i and type(parsed_orbital) == str:
                 # Noble-gas notation for first atomic orbital
+                self.noble_gas_config = parsed_orbital
                 continue
             # Create a validated AtomicOrbital object for this orbital.
             orbital = AtomicOrbital(n=parsed_orbital['n'],
@@ -94,6 +98,15 @@ class AtomicConfiguration(State):
         if len(subshells) != len(set(subshells)):
             raise AtomicConfigurationError('Repeated subshell in {0}'
                                                     .format(state_str))
+
+    @property
+    def html(self):
+        html_chunks = []
+        if self.noble_gas_config:
+            html_chunks.append(self.noble_gas_config)
+        for orbital in self.orbitals:
+            html_chunks.append(orbital.html)
+        return ''.join(html_chunks)
 
     def expand_noble_gas_config(self, config):
         """Recursively expand out the noble gas notation to orbitals.

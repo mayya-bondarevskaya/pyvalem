@@ -22,7 +22,7 @@ atom_Lletter = pp.oneOf(atom_L_symbols).setResultsName('Lletter')
 atom_Jstr = (integer+pp.Optional(pp.Suppress('/')+'2')+pp.StringEnd()).setResultsName('Jstr')
 atom_parity = pp.Literal('o').setResultsName('parity')
 atom_term = (atom_Smult + atom_Lletter + pp.Optional(atom_parity) +
-             pp.Optional(pp.Suppress('_') + atom_Jstr))
+             pp.Optional(pp.Suppress('_') + atom_Jstr) + pp.StringEnd())
 
 class AtomicTermSymbol(State):
     def parse_state(self, state_str):

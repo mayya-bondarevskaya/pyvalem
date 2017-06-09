@@ -32,9 +32,9 @@ class GenericExcitedState(State):
         html_chunks = []
         if '*' in self.state_str:
             if len(self.state_str) == self.state_str.count('*'):
-                html_chunks.append('<sup>{:s}<\sup>'.format(self.state_str))
+                html_chunks.append('<sup>{:s}</sup>'.format(self.state_str))
             else:
-                html_chunks.append('{:d}<sup>*<\sup>'.format(self.int_n))
+                html_chunks.append('{:d}<sup>*</sup>'.format(self.int_n))
         else:
             html_chunks.append(self.state_str)
         return ''.join(html_chunks)

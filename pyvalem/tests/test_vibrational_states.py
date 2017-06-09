@@ -12,25 +12,50 @@ from ..vibrational_state import VibrationalState
 
 class VibrationalStateTest(unittest.TestCase):
     def test_vibrational_state(self):
-        v0 = VibrationalState('1')
-        self.assertEqual(v0.html, '1')
+        v0 = VibrationalState('0')
+        self.assertEqual(v0.html, 'v=0')
+        self.assertEqual(str(v0), 'v=0')
         
-        v1 = VibrationalState('5')
-        self.assertEqual(v1.html, '5')
+        v1 = VibrationalState('v=5')
+        self.assertEqual(v1.html, 'v=5')
+        self.assertEqual(str(v1), 'v=5')
         
         v2 = VibrationalState('3v2+v3')
-        self.assertEqual(v2.html, '3v<sub>2<\sub> + 1v<sub>3<\sub>')
+        self.assertEqual(str(v2), '3ν2+ν3')
+        self.assertEqual(v2.html, '3ν<sub>2</sub> + ν<sub>3</sub>')
         
-        v3 = VibrationalState('v1+v2')
-        self.assertEqual(v3.html, '1v<sub>1<\sub> + 1v<sub>2<\sub>')
+        v3 = VibrationalState('ν1+ν2')
+        self.assertEqual(str(v3), 'ν1+ν2')
+        self.assertEqual(v3.html, 'ν<sub>1</sub> + ν<sub>2</sub>')
         
         v4 = VibrationalState('2v1 + 3v4')
-        self.assertEqual(v4.html, '2v<sub>1<\sub> + 3v<sub>4<\sub>')
-        
+        self.assertEqual(str(v4), '2ν1+3ν4')
+        self.assertEqual(v4.html, '2ν<sub>1</sub> + 3ν<sub>4</sub>')
+
+        v5 = VibrationalState('3v2')
+        self.assertTrue(v5.polyatomic)
+        self.assertEqual(str(v5), '3ν2')
+        self.assertEqual(v5.html, '3ν<sub>2</sub>')
+
         self.assertRaises(StateParseError, VibrationalState, 'abc')
         self.assertRaises(StateParseError, VibrationalState, 'v+v2')
-        self.assertRaises(StateParseError, VibrationalState, '1v1')
+        self.assertRaises(StateParseError, VibrationalState, '1v1+')
+        self.assertRaises(StateParseError, VibrationalState, 'v=0x')
+        self.assertRaises(StateParseError, VibrationalState, '2ν1+3ν4x')
 
+    def test_generic_excited_vibrational_state(self):
+        v1 = VibrationalState('v=*')
+        self.assertIsNone(v1.polyatomic)
+        self.assertEqual(str(v1), 'v=*')
+        self.assertEqual(v1.html, 'v=*')
+
+        v2 = VibrationalState('**')
+        self.assertEqual(str(v2), 'v=**')
+        self.assertEqual(v2.html, 'v=**')
+
+        self.assertRaises(StateParseError, VibrationalState, 'v=****')
+        self.assertRaises(StateParseError, VibrationalState, 'v=***x')
+       
 
 if __name__ == '__main__':
     unittest.main()
