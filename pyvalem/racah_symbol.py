@@ -25,7 +25,7 @@ class RacahSymbol(State):
 
     def parse_state(self, state_str):
         try:
-            components = racah_symbol_template(state_str)
+            components = racah_symbol_template.parseString(state_str)
         except pp.PraseException:
             raise StateParseError('Invalid Racah notation syntax: {:}'
                                 .format(state_str))
@@ -34,9 +34,9 @@ class RacahSymbol(State):
         if "'" in self.orbital:
             self.parent_rot = 0.5
         else:
-            self.parent_rot = 3.2
+            self.parent_rot = 1.5
         self.k_num = int(components.k_num)
-        self.k_den = int(compoennts.k_den)
+        self.k_den = int(components.k_den)
         self.j_term = int(components.jterm)
         
     @property
