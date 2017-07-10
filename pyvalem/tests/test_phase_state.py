@@ -19,6 +19,7 @@ class PhaseStateTest(unittest.TestCase):
 
         self.assertRaises(StateParseError, PhaseState, 's')
         self.assertRaises(StateParseError, PhaseState, ':q')
+        self.assertRaises(StateParseError, PhaseState, ':aa')
 
 
 if __name__ == '__main__':
