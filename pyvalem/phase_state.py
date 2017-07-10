@@ -18,13 +18,13 @@ class PhaseState(State):
             raise StateParseError("A PhaseState must start with ':', but was"
                     ' passed {}'.format(state_str))
 
-        if state_str[:2] == ':s':
+        if state_str == ':s':       #[:2] == ':s':
             self.phase = 's'
-        elif state_str[:2] == ':l':
+        elif state_str == ':l':     #[:2] == ':l':
             self.phase = 'l'
-        elif state_str[:2] == ':g':
+        elif state_str == ':g':     #[:2] == ':g':
             self.phase = 'g'
-        elif state_str[:2] == ':a':
+        elif state_str == ':a':     #[:2] == ':a':
             self.phase = 'a'
         else:
             raise StateParseError('Unrecognised PhaseState specification: {}'
