@@ -36,6 +36,7 @@ from .atom_data import element_symbols, atom_data
 element = pp.oneOf(element_symbols)
 # TODO don't allow leading 0
 integer = pp.Word(pp.nums)
+integer_or_x = integer | pp.Literal('x')
 plusminus = pp.Literal('+') | pp.Literal('-')
 
 # An isotope looks like '(1H)', '(13C)', etc.; strip the parentheses
@@ -44,11 +45,11 @@ isotope = pp.Group(pp.Suppress(pp.Literal('(')) + integer + element
 
 # some named components of a formula
 # stoich comes before or after a "bare" element symbol, e.g. 3Br2
-stoich = pp.Optional(integer, default='1').setResultsName('stoich')
+stoich = pp.Optional(integer_or_x, default='1').setResultsName('stoich')
 # prestoich comes before a bracketed element group, e.g. 2(NH3)
 prestoich = pp.Optional(integer, default='1').setResultsName('prestoich')
 # poststoich comes after a bracketed element group, e.g. (H2O)3
-poststoich = pp.Optional(integer, default='1').setResultsName('poststoich')
+poststoich = pp.Optional(integer_or_x, default='1').setResultsName('poststoich')
 # the charge is always defined and defaults to '0'
 charge = pp.Optional(pp.Combine(pp.Group(plusminus + pp.Optional(integer,
                         default='1'))), default='0').setResultsName('charge')
@@ -292,19 +293,23 @@ class ChemFormula(object):
 
                 self.atoms.add(atom_symbol)
 
-                atom_stoich = int(atom_stoich)
-                total_atom_stoich = atom_stoich * stoich
-                self.natoms += total_atom_stoich
-                self.rmm += atomic_weight * total_atom_stoich
+                try:
+                    i_atom_stoich = int(atom_stoich)
+                    total_atom_stoich = i_atom_stoich * stoich
+                    self.natoms += total_atom_stoich
+                    self.rmm += atomic_weight * total_atom_stoich
+                except ValueError:
+                    total_atom_stoich = None
+                    self.natoms = self.rmm = None
                 try:
                     self.atom_stoich[(Z, mass_number)] += total_atom_stoich
-                except KeyError:
+                except (KeyError, TypeError):
                     self.atom_stoich[(Z, mass_number)] = total_atom_stoich
 
                 html_chunks.append(symbol_html)
                 latex_chunks.append(symbol_latex)
-                if atom_stoich > 1:
-                    html_chunks.append('<sub>%d</sub>' % atom_stoich)
+                if atom_stoich != '1':
+                    html_chunks.append('<sub>{}</sub>'.format(atom_stoich))
                     latex_chunks.append('_{{{0}}}'.format(atom_stoich))
                     slug_chunks.append(str(atom_stoich))
 
@@ -458,8 +463,10 @@ class ChemFormula(object):
         in which case, just return X.
 
         """
+        if stoich is None:
+            return '{}x'.format(symbol)
         if stoich > 1:
-            return '%s%d' % (symbol, stoich)
+            return '{}{:d}'.format(symbol, stoich)
         return symbol
 
     def _get_charge_string(self):

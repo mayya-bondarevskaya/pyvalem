@@ -17,6 +17,9 @@ class ChemFormulaTest(unittest.TestCase):
         self.assertEqual(cf.stoichiometric_formula('alphabetical'), 'C2F4H2')
         self.assertEqual(cf.stoichiometric_formula('hill'), 'C2H2F4')
 
+        cf = ChemFormula('CFx')
+        self.assertEqual(cf.stoichiometric_formula(), 'CFx')
+
     def test_html_and_slug(self):
         f = (('NO+', 'NO+', 'NO<sup>+</sup>', 'NO_p'),
              ('OH-', 'HO-', 'OH<sup>-</sup>', 'OH_m'),
@@ -26,7 +29,8 @@ class ChemFormulaTest(unittest.TestCase):
              ('(14N)(1H)(16O)2(18O)(16O)', '(1H)(14N)(16O)3(18O)',
               '<sup>14</sup>N<sup>1</sup>H<sup>16</sup>O<sub>2</sub>'
                       '<sup>18</sup>O<sup>16</sup>O',
-              '14N-1H-16O2-18O-16O')
+              '14N-1H-16O2-18O-16O'),
+             ('CFx', 'CFx', 'CF<sub>x</sub>', 'CFx'),
              )
 
         for formula, stoich_formula, html, slug in f:
