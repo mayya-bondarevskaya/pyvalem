@@ -196,31 +196,15 @@ class ChemFormula(object):
         # We make a particular exception for "M", denoting an unspecified
         # "third-body" in many reactions. M does not have a defined charge or
         # mass.
-        if formula == 'M':
-            self.slug = self.html = self.latex = 'M'
-            self.atom_stoich = {}
-            self.rmm = self.charge = self.natoms = None
-            self.atoms = {'M'}
-            return
-        
-        # Also make an exception for "e-", denoting an electron.
-        if formula == 'e-':
-            self.slug = 'e_m'
-            self.html = 'e<sup>-</sup>'
-            self.latex = '$e^-$'
-            self.atom_stoich = {}
-            self.rmm = 5.48579909e-04   # m_e / u
-            self.charge = -1
-            self.natoms = None
-            return
-
-        if formula in ('hν', 'hv'):
-            self.slug = 'hv'
-            self.html = 'hν'
-            self.latex = r'$h\nu$'
-            self.atom_stoich = {}
-            self.charge = 0
-            self.rmm = self.natoms = None 
+        if formula in dict_special_cases:
+            self.slug = dict_special_cases[formula]['slug']
+            self.html = dict_special_cases[formula]['html']
+            self.latex = dict_special_cases[formula]['latex']
+            self.atom_stoich = dict_special_cases[formula]['atom_stoich']
+            self.rmm = dict_special_cases[formula]['rmm']
+            self.charge = dict_special_cases[formula]['charge']
+            self.natoms = dict_special_cases[formula]['natoms']
+            self.atoms = dict_special_cases[formula]['atoms']
             return
 
         try:
@@ -485,3 +469,36 @@ class ChemFormula(object):
         if self.charge == -1:
             return '-'
         return str(self.charge)
+            
+dict_special_cases = { 'M': {'slug': 'M',
+                             'html': 'M',
+                             'latex': 'M',
+                             'atom_stoich': {},
+                             'rmm': None,
+                             'charge': None,
+                             'natoms': None,
+                             'atoms': {'M'}},
+                       'e-': {'slug': 'e_m',
+                              'html': 'e<sup>-</sup>',
+                              'latex': '$e^-$',
+                              'atom_stoich': {},
+                              'rmm': 5.48579909e-04,  # m_e / u
+                              'charge': -1,
+                              'natoms': None,
+                              'atoms': {}},
+                       'hv': {'slug': 'hv',
+                              'html': 'hν',
+                              'latex': r'$h\nu$',
+                              'atom_stoich': {},
+                              'rmm': None,
+                              'charge': 0,
+                              'natoms': None,
+                              'atoms': {}},
+                       'hν': {'slug': 'hv',
+                              'html': 'hν',
+                              'latex': r'$h\nu$',
+                              'atom_stoich': {},
+                              'rmm': None,
+                              'charge': 0,
+                              'natoms': None,
+                              'atoms': {}}}
