@@ -82,12 +82,12 @@ chemical_formula_fragments = pp.OneOrMore(chemical_formula_fragment)\
 # NB be careful to ensure that the slugs remain case-insensitive!
 # For example, '(S)-' -> 'S-' but 's-' -> 'syn-'
 prefix_tokens = {'(+)': 'p', '(-)': 'm', '(±)': 'pm', 'D': 'D', 'L': 'L',
-                 '(R)': 'R', '(S)': 'S', '(E)': 'E', '(Z)': 'Z',
+                 '(R)': 'R', '(S)': 'S', '(E)': 'E', '(Z)': 'Z', 'c':'c', 'l':'l',
                  'cis': 'cis', 'trans': 'trans', 's': 'syn', 'a': 'anti',
                  'Δ': 'Delta', 'Λ': 'Lambda',
                  'α': 'alpha', 'β': 'beta', 'γ': 'gamma',
                  'n': 'n', 'i': 'i', 't': 't', 'neo': 'neo', 'sec': 'sec',
-                 'o': 'o', 'm': 'm', 'p': 'p',
+                 'o': 'o', 'm': 'm', 'p': 'p', 
                  'ortho': 'ortho', 'meta': 'meta', 'para': 'para',}
 
 latex_prefix_dict = {'(±)': r'\pm',  'Δ': r'\Delta', 'Λ': r'\Lambda',
@@ -95,8 +95,9 @@ latex_prefix_dict = {'(±)': r'\pm',  'Δ': r'\Delta', 'Λ': r'\Lambda',
 
 # also allow a comma-separated list of integers, e.g. 1,1,2-
 prefix_parser = pp.delimitedList(pp.OneOrMore(integer), combine=True)
-for pt in prefix_tokens.keys():
-    prefix_parser |= pp.Literal(pt)
+keys_list = list(prefix_tokens.keys())
+for pt in keys_list:
+    prefix_parser |= pp.Keyword(pt)
 # Any number of prefix tokens may appear, separated by a hyphen
 prefix_list_parser = (pp.delimitedList(prefix_parser, delim='-')
                        + pp.Suppress(pp.Literal('-'))).setResultsName('prefix')
