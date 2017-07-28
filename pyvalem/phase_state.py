@@ -25,7 +25,7 @@ class PhaseState(State):
         elif state_str == ':g':     #[:2] == ':g':
             self.phase = 'g'
         elif state_str == ':a':     #[:2] == ':a':
-            self.phase = 'a'
+            self.phase = 'a' # after a optional hem formula
         else:
             raise StateParseError('Unrecognised PhaseState specification: {}'
                     '. Must be one of :s, :l, :g, :a'.format(state_str))
