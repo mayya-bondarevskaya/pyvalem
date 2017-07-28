@@ -148,18 +148,32 @@ good_formulas = {
              'slug': '1_1_D_p__CH3CH_d__Cl_d___Br_d__CH_d__F_d___Cl_d__CHCl2',
              'rmm': 294.804843,
             },
-    #'para-C6H5Cl':
-    #        {'stoichiometric_formula': 'H5C6Cl',
-    #         'html': 'para-C<sub>6</sub>H<sub>5</sub>Cl',
-    #         'slug': 'para__C6H5Cl',
-    #         'rmm': 112.5569,
-    #         'natoms': 12
-    #        },
+    'para-C6H5Cl':
+            {'stoichiometric_formula': 'H5C6Cl',
+             'html': 'para-C<sub>6</sub>H<sub>5</sub>Cl',
+             'slug': 'para__C6H5Cl',
+             'rmm': 112.5569,
+             'natoms': 12
+            },
     'cis-1,2-CHFCHF':
             {'stoichiometric_formula': 'H2C2F2',
              'html': 'cis-1,2-CHFCHF',
              'slug': 'cis_1_2__CHFCHF',
              'rmm': 64.034086,
+             'natoms': 6
+            },
+    'c-C3F3':
+            {'stoichiometric_formula': 'C3F3',
+             'html': 'c-C<sub>3</sub>F<sub>3</sub>',
+             'slug': 'c__C3F3',
+             'rmm': 93.027309,
+             'natoms': 6
+            },
+    'l-C3F3':
+            {'stoichiometric_formula': 'C3F3',
+             'html': 'l-C<sub>3</sub>F<sub>3</sub>',
+             'slug': 'l__C3F3',
+             'rmm': 93.027309,
              'natoms': 6
             },
 }
