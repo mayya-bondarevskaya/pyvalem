@@ -49,7 +49,7 @@ class ChemFormulaTest(unittest.TestCase):
     def test_good_formulas(self):
         for formula in good_formulas:
             cf = ChemFormula(formula)
-            #print(formula)
+            print(formula)
             self.assertEqual(cf.stoichiometric_formula(),
                              good_formulas[formula]['stoichiometric_formula'])
             self.assertEqual(cf.html, good_formulas[formula]['html'])
