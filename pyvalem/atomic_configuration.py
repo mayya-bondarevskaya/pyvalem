@@ -122,5 +122,5 @@ class AtomicConfiguration(State):
                 config[4:])
                 
     def __eq__(self, other):
-        return self.subshells_expanded == other.subshells_expanded
+        return set(self.subshells_expanded.split('.')) == set(other.subshells_expanded.split('.'))
             
