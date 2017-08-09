@@ -78,8 +78,8 @@ class AtomicConfiguration(State):
 
         # Expand out noble gas notation, if used, and check that the
         # subshells 1s, 2s, 2p, ... are unique.
-        self.subshells = self.expand_noble_gas_config(self.state_str)
-        self.subshells = [subshell[:2] for subshell in self.subshells.split('.')]
+        self.subshells_expanded = self.expand_noble_gas_config(self.state_str)
+        subshells = [subshell[:2] for subshell in self.subshells_expanded.split('.')]
 
         self.orbitals = []
         self.noble_gas_config = None
@@ -95,7 +95,7 @@ class AtomicConfiguration(State):
             self.orbitals.append(orbital)
 
         # Check that the subshells specified are unique
-        if len(self.subshells) != len(set(self.subshells)):
+        if len(subshells) != len(set(subshells)):
             raise AtomicConfigurationError('Repeated subshell in {0}'
                                                     .format(state_str))
 
@@ -122,4 +122,5 @@ class AtomicConfiguration(State):
                 config[4:])
                 
     def __eq__(self, other):
-        return set(self.subshells) == set(other.subshells)
+        return self.subshells_expanded == other.subshells_expanded
+            
