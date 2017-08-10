@@ -64,6 +64,18 @@ class VibrationalState(State):
         return '+'.join([str(term) for term in self.terms])
     __repr__=__str__
     
+    def electrons(self):
+        if not self.polyatomic:
+            return 1
+        else:
+            return sum([term.n for term in self.terms])
+            
+    def modes(self):
+        if not self.polyatomic:
+            return [self.v]
+        else:
+            return [term.mode for term in self.terms]
+    
     @property
     def html(self):
         html_chunks = []
