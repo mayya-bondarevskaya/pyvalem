@@ -12,7 +12,7 @@ class EnergyFreqWvlnError(Exception):
     def __str__(self):
         return self.error_str
 
-class EnergyFreqWvln(State):
+class EnergyFreqWvln(State):    
     def parse_state(self,state_str):
         self.quantity = Quantity.parse(state_str)
         self.check_if_energy_freq_or_wvln()
